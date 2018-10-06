@@ -1,0 +1,101 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: CI/CD pipeline for a react site version controlled in github and hosted via S3.
+
+Parameters:
+  SiteBucketName:
+    Type: String
+    Description: Name of bucket to create to host the website
+  GitHubOwner:
+    Type: String
+    Description: GitHub Owner
+    Default: "bu-ist"
+  GitHubRepo:
+    Type: String
+    Description: GitHub Repo to pull from. Only the Name. not the URL
+
+Resources:
+  SiteBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      AccessControl: PublicRead
+      BucketName: !Ref SiteBucketName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub ${AWS::StackName}
+      Description: Deploy site to S3
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/nodejs:8.11.0
+      BadgeEnabled: true
+      Triggers:
+        Webhook: true
+      Source:
+        Type: GITHUB
+        Auth: 
+          Type: OAUTH
+        GitCloneDepth: 1
+        Location: !Sub "https://github.com/${GitHubOwner}/${GitHubRepo}.git"
+        ReportBuildStatus: true
+        BuildSpec: !Sub |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+                - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+                - sudo apt-get install --no-install-recommends yarn
+                - yarn install
+            build:
+              commands:
+                - yarn build
+            post_build:
+              commands:
+                - aws s3 sync --acl public-read --delete ./build s3://${SiteBucketName}
+      TimeoutInMinutes: 10
+
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:PutObjectAcl
+                  - s3:GetObjectVersion
+                Effect: Allow
+                Resource:
+                  - !Sub arn:aws:s3:::${SiteBucket}/*
+              - Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Effect: Allow
+                Resource: '*'
+
+Outputs:
+  SiteUrl:
+    Value: !GetAtt SiteBucket.WebsiteURL
+    Description: S3 Website URL
