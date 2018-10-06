@@ -55,7 +55,7 @@ Resources:
                 - npm install
             build:
               commands:
-                - npm build
+                - npm run build
             post_build:
               commands:
                 - aws s3 sync --acl public-read --delete ./build s3://${SiteBucketName}
