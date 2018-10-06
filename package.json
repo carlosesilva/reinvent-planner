@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "moment": "^2.22.2",
+    "node-sass": "^4.9.3",
     "react": "^16.5.2",
     "react-big-calendar": "^0.20.1",
     "react-dom": "^16.5.2",

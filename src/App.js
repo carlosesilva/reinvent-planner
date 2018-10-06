@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import CodeSnippet from "./CodeSnippet";
+import EventsLoader from "./EventsLoader";
 import Calendar from "./Calendar";
 
-import "./App.css";
+import "./App.scss";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <CodeSnippet />
+        <EventsLoader />
         <Calendar rawEvents={[]} />
       </div>
     );
