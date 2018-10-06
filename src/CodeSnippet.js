@@ -11,7 +11,6 @@ export default class CodeSnippet extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount");
     fetch("scrapper.js")
       .then(res => res.text())
       .then(codeString => this.setState({ codeString }));

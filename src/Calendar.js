@@ -6,19 +6,10 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
-export default ({ rawEvents }) => {
-  if (!rawEvents) {
+export default ({ events }) => {
+  if (!events) {
     return null;
   }
-  const events = rawEvents.map(event => ({
-    title: `${event.abbreviation} (${event.location &&
-      event.location
-        .split(",")[0]
-        .replace("–", "")
-        .trim()}) [${event.type}]`,
-    start: new Date(event.start),
-    end: new Date(event.end)
-  }));
 
   return (
     <BigCalendar

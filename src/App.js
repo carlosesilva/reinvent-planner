@@ -6,11 +6,22 @@ import "./App.scss";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { events: [] };
+
+    this.onNewEvents = this.onNewEvents.bind(this);
+  }
+  onNewEvents(events) {
+    this.setState({
+      events
+    });
+  }
   render() {
     return (
       <div className="App">
-        <EventsLoader />
-        <Calendar rawEvents={[]} />
+        <EventsLoader onNewEvents={this.onNewEvents} />
+        <Calendar events={this.state.events} />
       </div>
     );
   }
