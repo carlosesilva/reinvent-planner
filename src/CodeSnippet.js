@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { github } from "react-syntax-highlighter/styles/hljs";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export default class CodeSnippet extends Component {
   constructor() {
     super();
     this.state = {
-      codeString: ""
+      codeString: "",
+      copied: false
     };
   }
 
@@ -19,6 +21,14 @@ export default class CodeSnippet extends Component {
   render() {
     return (
       <div className="CodeSnippet">
+        <CopyToClipboard
+          text={this.state.codeString}
+          onCopy={() => this.setState({ copied: true })}
+        >
+          <button className="CodeSnippet__copy">
+            {this.state.copied ? "Copied!" : "Copy to clipboard"}
+          </button>
+        </CopyToClipboard>
         <SyntaxHighlighter
           language="javascript"
           showLineNumbers

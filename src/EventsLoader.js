@@ -16,7 +16,6 @@ class EventsLoader extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("Submitted: " + this.state.eventsJson);
     const events = JSON.parse(this.state.eventsJson).map(event => ({
       title: `${event.abbreviation} (${event.location &&
         event.location
@@ -32,10 +31,20 @@ class EventsLoader extends Component {
   render() {
     return (
       <div className="EventsLoader">
+        <button
+          className="EventsLoader__close"
+          onClick={this.props.hideEventsLoader}
+        >
+          Close
+        </button>
+        <p>
+          Use the javascript code below to gather the information about the
+          sessions you are interested in.
+        </p>
         <CodeSnippet />
         <form className="EventsLoader__form" onSubmit={this.handleSubmit}>
           <label>
-            Paste the result here:
+            Paste the JSON result here:
             <textarea
               onChange={this.handleChange}
               value={this.state.eventsJson}

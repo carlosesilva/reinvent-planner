@@ -12,12 +12,13 @@ export default ({ events }) => {
   }
 
   return (
-    <BigCalendar
-      localizer={localizer}
-      defaultDate={new Date(2018, 10, 25)}
-      defaultView="week"
-      events={events}
-      style={{ height: "100vh" }}
-    />
+    <div className="Calendar">
+      <BigCalendar
+        localizer={localizer}
+        defaultDate={new Date(2018, 10, 25)}
+        defaultView="week"
+        events={events}
+      />
+    </div>
   );
 };

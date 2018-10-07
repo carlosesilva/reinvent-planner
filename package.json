@@ -7,7 +7,9 @@
     "node-sass": "^4.9.3",
     "react": "^16.5.2",
     "react-big-calendar": "^0.20.1",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.5.2",
+    "react-modal": "^3.6.1",
     "react-scripts": "2.0.4",
     "react-syntax-highlighter": "^8.0.1"
   },
