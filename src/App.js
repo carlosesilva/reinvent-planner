@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactModal from "react-modal";
 import Header from "./Header";
 import EventsLoader from "./EventsLoader";
 import Calendar from "./Calendar";
@@ -7,12 +6,10 @@ import Calendar from "./Calendar";
 import "./App.scss";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-ReactModal.setAppElement("#root");
-
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { events: [], showEventsLoader: false };
+    this.state = { events: [], isEventsLoaderShown: false };
 
     this.onNewEvents = this.onNewEvents.bind(this);
     this.showEventsLoader = this.showEventsLoader.bind(this);
@@ -31,17 +28,17 @@ class App extends Component {
       });
     } else {
       this.setState({
-        showEventsLoader: true
+        isEventsLoaderShown: true
       });
     }
   }
 
   showEventsLoader() {
-    this.setState({ showEventsLoader: true });
+    this.setState({ isEventsLoaderShown: true });
   }
 
   hideEventsLoader() {
-    this.setState({ showEventsLoader: false });
+    this.setState({ isEventsLoaderShown: false });
   }
 
   onNewEvents(events) {
@@ -57,7 +54,7 @@ class App extends Component {
     );
     this.setState({
       events,
-      showEventsLoader: false
+      isEventsLoaderShown: false
     });
   }
   render() {
@@ -65,18 +62,12 @@ class App extends Component {
       <div className="App">
         <Header
           hasEvents={this.state.events.length > 0}
-          howEventsLoader={this.showEventsLoader}
+          showEventsLoader={this.showEventsLoader}
         />
-        <ReactModal
-          isOpen={this.state.showEventsLoader}
-          contentLabel="Minimal Modal Example"
-          onRequestClose={this.hideEventsLoader}
-        >
-          <EventsLoader
-            onNewEvents={this.onNewEvents}
-            hideEventsLoader={this.hideEventsLoader}
-          />
-        </ReactModal>
+        <EventsLoader
+          isEventsLoaderShown={this.state.isEventsLoaderShown}
+          hideEventsLoader={this.hideEventsLoader}
+        />
         <Calendar events={this.state.events} />
       </div>
     );

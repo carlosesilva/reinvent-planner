@@ -4,30 +4,28 @@
 
 .App {
   display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: auto auto;
 }
 
 .Header {
-  height: 50px;
   background: #eee;
   display: grid;
-  grid-template-columns: auto;
-  justify-items: center;
+  grid-template-columns: 1fr auto;
+  grid-gap: 1rem;
   align-items: center;
+  padding: 0 2rem;
 }
 
 .EventsLoader {
-  display: relative;
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
+}
 
-  .EventsLoader__close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-  }
+.close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .EventsLoader__form {
@@ -53,4 +51,9 @@
 }
 
 .Calendar {
+  padding: 1rem;
+}
+
+.ReactModal__Overlay {
+  z-index: 1000;
 }

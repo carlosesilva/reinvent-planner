@@ -1,5 +1,9 @@
 import React, { Component } from "react";
+import ReactModal from "react-modal";
 import CodeSnippet from "./CodeSnippet";
+import Button from "./Button";
+
+ReactModal.setAppElement("#root");
 
 class EventsLoader extends Component {
   constructor(props) {
@@ -30,29 +34,32 @@ class EventsLoader extends Component {
 
   render() {
     return (
-      <div className="EventsLoader">
-        <button
-          className="EventsLoader__close"
-          onClick={this.props.hideEventsLoader}
-        >
+      <ReactModal
+        isOpen={this.props.isEventsLoaderShown}
+        contentLabel="Events Loader"
+        onRequestClose={this.props.hideEventsLoader}
+      >
+        <Button className="close-modal" onClick={this.props.hideEventsLoader}>
           Close
-        </button>
-        <p>
-          Use the javascript code below to gather the information about the
-          sessions you are interested in.
-        </p>
-        <CodeSnippet />
-        <form className="EventsLoader__form" onSubmit={this.handleSubmit}>
-          <label>
-            Paste the JSON result here:
-            <textarea
-              onChange={this.handleChange}
-              value={this.state.eventsJson}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
+        </Button>
+        <div className="EventsLoader">
+          <p>
+            Use the javascript code below to gather the information about the
+            sessions you are interested in.
+          </p>
+          <CodeSnippet />
+          <form className="EventsLoader__form" onSubmit={this.handleSubmit}>
+            <label>
+              <p>Paste the JSON result here:</p>
+              <textarea
+                onChange={this.handleChange}
+                value={this.state.eventsJson}
+              />
+            </label>
+            <input type="submit" value="Upload" />
+          </form>
+        </div>
+      </ReactModal>
     );
   }
 }

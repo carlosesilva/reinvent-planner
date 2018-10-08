@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from "./Button";
 
 class Header extends Component {
   constructor(props) {
@@ -8,9 +9,10 @@ class Header extends Component {
   render() {
     return (
       <header className="Header">
-        <button onClick={this.props.showEventsLoader}>
+        <h1>re:Invent Planner</h1>
+        <Button onClick={this.props.showEventsLoader}>
           {this.props.hasEvents ? "Update Events" : "Upload Events"}
-        </button>
+        </Button>
       </header>
     );
   }
