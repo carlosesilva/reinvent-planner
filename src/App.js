@@ -20,11 +20,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    debugger;
     const events = localStorage.getItem("events");
     if (events) {
       this.setState({
-        events: JSON.parse(events)
+        events: JSON.parse(events).map(event => ({
+          ...event,
+          start: new Date(event.start),
+          end: new Date(event.end)
+        }))
       });
     } else {
       this.setState({
@@ -42,8 +45,16 @@ class App extends Component {
   }
 
   onNewEvents(events) {
-    debugger;
-    localStorage.setItem("events", JSON.stringify(events));
+    localStorage.setItem(
+      "events",
+      JSON.stringify(
+        events.map(event => ({
+          ...event,
+          start: event.start.getTime(),
+          end: event.end.getTime()
+        }))
+      )
+    );
     this.setState({
       events,
       showEventsLoader: false
