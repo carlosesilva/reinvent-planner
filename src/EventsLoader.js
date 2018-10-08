@@ -8,21 +8,28 @@ ReactModal.setAppElement("#root");
 class EventsLoader extends Component {
   constructor(props) {
     super(props);
-    this.state = { eventsJson: "", error: null };
+    this.state = { rawEventsJson: "", error: null };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    const rawEventsJson = localStorage.getItem("rawEventsJson");
+    if (rawEventsJson) {
+      this.setState({ rawEventsJson });
+    }
+  }
+
   handleChange(event) {
-    this.setState({ eventsJson: event.target.value.trim(), error: null });
+    this.setState({ rawEventsJson: event.target.value, error: null });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
     try {
-      const rawEvents = JSON.parse(this.state.eventsJson);
+      const rawEvents = JSON.parse(this.state.rawEventsJson);
       const events = rawEvents.map(event => ({
         title: `${event.abbreviation} (${event.location &&
           event.location
@@ -32,6 +39,7 @@ class EventsLoader extends Component {
         start: new Date(event.start),
         end: new Date(event.end)
       }));
+      localStorage.setItem("rawEventsJson", this.state.rawEventsJson);
       this.props.onNewEvents(events);
     } catch (error) {
       this.setState({
@@ -80,9 +88,11 @@ class EventsLoader extends Component {
               <form className="EventsLoader__form" onSubmit={this.handleSubmit}>
                 <textarea
                   onChange={this.handleChange}
-                  value={this.state.eventsJson}
+                  value={this.state.rawEventsJson}
                 />
-                <Button>Upload</Button>
+                <Button disabled={this.state.rawEventsJson.trim().length < 1}>
+                  Upload
+                </Button>
                 {this.state.error && (
                   <p className="EventsLoader__error">
                     Unable to upload:

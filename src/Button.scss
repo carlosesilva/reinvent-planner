@@ -8,4 +8,8 @@
   &:active {
     background-color: #265985;
   }
+
+  &:disabled {
+    background-color: #aaa;
+  }
 }
