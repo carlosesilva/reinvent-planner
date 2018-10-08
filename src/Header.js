@@ -12,7 +12,7 @@ class Header extends Component {
         <div>
           <h1>re:Invent Planner</h1>
           <p>
-            Plan your AWS re:Invent 2018 sessions by visualizing it in a
+            Plan your AWS re:Invent 2018 schedule by visualizing it in a
             calendar.
           </p>
         </div>

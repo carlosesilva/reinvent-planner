@@ -30,16 +30,21 @@ class EventsLoader extends Component {
 
     try {
       const rawEvents = JSON.parse(this.state.rawEventsJson);
-      const events = rawEvents.map(event => ({
-        title: `${event.abbreviation} (${event.location &&
+      const events = rawEvents.map(event => {
+        const location =
+          event.location &&
           event.location
             .split(",")[0]
             .replace("–", "")
-            .trim()}) [${event.type}]`,
-        start: new Date(event.start),
-        end: new Date(event.end),
-        link: event.link
-      }));
+            .trim();
+        return {
+          title: `${event.abbreviation} (${location}) [${event.type}]`,
+          start: new Date(event.start),
+          end: new Date(event.end),
+          link: event.link,
+          location
+        };
+      });
       localStorage.setItem("rawEventsJson", this.state.rawEventsJson);
       this.props.onNewEvents(events);
     } catch (error) {

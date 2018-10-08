@@ -23,6 +23,32 @@ export default ({ events }) => {
             window.open(event.link, "_blank");
           }
         }}
+        eventPropGetter={event => {
+          const locationColors = {
+            park: "#f9f7dd",
+            aria: "#93b21f",
+            vdara: "#eae7af",
+            cosmopolitan: "#fbc88a",
+            bellagio: "#f6a035",
+            mirage: "#e5ce41",
+            treasure: "#ff7abc",
+            mgm: "#568af9",
+            signature: "#ef4035",
+            linq: "#f37735",
+            "harrah's": "#fff797",
+            venetian: "#45b9f2",
+            wynn: "#7ac142",
+            encore: "#7f3f97"
+          };
+          try {
+            return {
+              style: {
+                backgroundColor:
+                  locationColors[event.location.split(" ")[0].toLowerCase()]
+              }
+            };
+          } catch (error) {}
+        }}
       />
     </div>
   );
