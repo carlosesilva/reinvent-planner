@@ -75,11 +75,11 @@ class EventsLoader extends Component {
             <li>
               Login into the{" "}
               <a
-                href="https://www.portal.reinvent.awsevents.com/portal/login.ww"
+                href="https://www.portal.reinvent.awsevents.com/connect/publicDashboard.ww"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                re:Invent website
+                re:Invent Event Catalog
               </a>{" "}
               and navigate to the Interests page.
             </li>
