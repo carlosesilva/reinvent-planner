@@ -69,6 +69,16 @@ class EventsLoader extends Component {
         </Button>
         <div className="EventsLoader">
           <h2>Import your sessions</h2>
+          <p>
+            See the how to video:{" "}
+            <a
+              href="https://www.dropbox.com/s/ox4vf6ahidd3z3y/reinvent-planner.mov?dl=0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://www.dropbox.com/s/ox4vf6ahidd3z3y/reinvent-planner.mov?dl=0
+            </a>
+          </p>
           <ol>
             <li>
               Copy the JS code snippet below: <CodeSnippet />
