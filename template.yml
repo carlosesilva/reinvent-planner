@@ -7,6 +7,9 @@ Parameters:
   SiteBucketName:
     Type: String
     Description: Name of bucket to create to host the website
+  HostedZoneName:
+    Type: String
+    Description: Hosted zone name used in Route 53
   GitHubOwner:
     Type: String
     Description: GitHub Owner
@@ -24,6 +27,16 @@ Resources:
       BucketName: !Ref SiteBucketName
       WebsiteConfiguration:
         IndexDocument: index.html
+
+  RecordSet:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Type: A
+      Name: !Ref SiteBucketName
+      HostedZoneName: !Ref HostedZoneName
+      AliasTarget: 
+        DNSName: s3-website-us-east-1.amazonaws.com
+        HostedZoneId: Z3AQBSTGFYJSTF
 
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
@@ -94,6 +107,10 @@ Resources:
                 Resource: '*'
 
 Outputs:
-  SiteUrl:
+  BucketSiteUrl:
     Value: !GetAtt SiteBucket.WebsiteURL
     Description: S3 Website URL
+  SiteUrl:
+    Value: !Sub http://${SiteBucketName}
+    Description: Website URL
+  
