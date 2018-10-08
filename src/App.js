@@ -12,11 +12,25 @@ ReactModal.setAppElement("#root");
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { events: [], showEventsLoader: true };
+    this.state = { events: [], showEventsLoader: false };
 
     this.onNewEvents = this.onNewEvents.bind(this);
     this.showEventsLoader = this.showEventsLoader.bind(this);
     this.hideEventsLoader = this.hideEventsLoader.bind(this);
+  }
+
+  componentDidMount() {
+    debugger;
+    const events = localStorage.getItem("events");
+    if (events) {
+      this.setState({
+        events: JSON.parse(events)
+      });
+    } else {
+      this.setState({
+        showEventsLoader: true
+      });
+    }
   }
 
   showEventsLoader() {
@@ -28,6 +42,8 @@ class App extends Component {
   }
 
   onNewEvents(events) {
+    debugger;
+    localStorage.setItem("events", JSON.stringify(events));
     this.setState({
       events,
       showEventsLoader: false
