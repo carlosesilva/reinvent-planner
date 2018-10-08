@@ -37,7 +37,8 @@ class EventsLoader extends Component {
             .replace("–", "")
             .trim()}) [${event.type}]`,
         start: new Date(event.start),
-        end: new Date(event.end)
+        end: new Date(event.end),
+        link: event.link
       }));
       localStorage.setItem("rawEventsJson", this.state.rawEventsJson);
       this.props.onNewEvents(events);

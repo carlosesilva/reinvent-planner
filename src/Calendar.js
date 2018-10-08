@@ -18,6 +18,11 @@ export default ({ events }) => {
         defaultDate={new Date(2018, 10, 25)}
         defaultView="week"
         events={events}
+        onDoubleClickEvent={event => {
+          if (event.link) {
+            window.open(event.link, "_blank");
+          }
+        }}
       />
     </div>
   );
