@@ -1,0 +1,292 @@
+[
+  {
+    "id": "23149",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=23149",
+    "abbreviation": "DEV303-R",
+    "title": "[REPEAT] Instrumenting Kubernetes for Observability Using AWS X-Ray and Amazon CloudWatch",
+    "type": "Workshop",
+    "start": 1543247100000,
+    "end": 1543255200000,
+    "location": " – Venetian, Level 2, Venetian I, T2"
+  },
+  {
+    "id": "91261",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=91261",
+    "abbreviation": "SRV326-R",
+    "title": "[REPEAT] Build a Multi-Region Serverless Application for Resilience & High Availability",
+    "type": "Workshop",
+    "start": 1543255200000,
+    "end": 1543263300000,
+    "location": " – Venetian, Level 2, Venetian H, T1"
+  },
+  {
+    "id": "91079",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=91079",
+    "abbreviation": "CON205-R",
+    "title": "[REPEAT] Getting Started with Kubernetes on AWS",
+    "type": "Workshop",
+    "start": 1543266000000,
+    "end": 1543274100000,
+    "location": " – Venetian, Level 2, Venetian H, T1"
+  },
+  {
+    "id": "89797",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89797",
+    "abbreviation": "SRV314-R",
+    "title": "[REPEAT] Securing Serverless Applications and AWS Lambda",
+    "type": "Workshop",
+    "start": 1543244400000,
+    "end": 1543252500000,
+    "location": " – Venetian, Level 2, Veronese 2404, T1"
+  },
+  {
+    "id": "89783",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89783",
+    "abbreviation": "SRV346-R",
+    "title": "[REPEAT] Build and Test a Serverless Error-Tracking Tool in One Weekend",
+    "type": "Chalk Talk",
+    "start": 1543255200000,
+    "end": 1543258800000,
+    "location": " – Venetian, Level 2, Veronese 2406, T1"
+  },
+  {
+    "id": "91496",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=91496",
+    "abbreviation": "DEV335-R",
+    "title": "[REPEAT] Hands-On with Advanced AWS CloudFormation Techniques and New Features",
+    "type": "Workshop",
+    "start": 1543244400000,
+    "end": 1543252500000,
+    "location": " – Venetian, Level 2, Venetian H, T1"
+  },
+  {
+    "id": "89150",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89150",
+    "abbreviation": "GAM305",
+    "title": "Dynamic Encounters for Veteran Players Using Machine Learning",
+    "type": "Workshop",
+    "start": 1543247100000,
+    "end": 1543255200000,
+    "location": " – Aria East, Level 1, Joshua 2, T2"
+  },
+  {
+    "id": "90135",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=90135",
+    "abbreviation": "API303",
+    "title": "Build Modern Applications that Align with Twelve-Factor Methods",
+    "type": "Workshop",
+    "start": 1543336200000,
+    "end": 1543344300000,
+    "location": " – MGM, Level 3, Premier Ballroom 318, T1"
+  },
+  {
+    "id": "89672",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89672",
+    "abbreviation": "CMP401-R",
+    "title": "[REPEAT] Run Your CI/CD and Test Workloads for 90% Less with Amazon EC2 Spot Instances",
+    "type": "Workshop",
+    "start": 1543425300000,
+    "end": 1543433400000,
+    "location": " – Venetian, Level 4, Lando 4205, T2"
+  },
+  {
+    "id": "91080",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=91080",
+    "abbreviation": "CON323-R",
+    "title": "[REPEAT] Deploying Applications Using Amazon EKS",
+    "type": "Workshop",
+    "start": 1543328100000,
+    "end": 1543336200000,
+    "location": " – Aria West, Level 3, Ironwood 7, T2"
+  },
+  {
+    "id": "91082",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=91082",
+    "abbreviation": "CON411-R",
+    "title": "[REPEAT] Management and Operations for Amazon EKS",
+    "type": "Workshop",
+    "start": 1543519800000,
+    "end": 1543527900000,
+    "location": " – Mirage, Bermuda A, T1"
+  },
+  {
+    "id": "90803",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=90803",
+    "abbreviation": "DAT404-R",
+    "title": "[REPEAT] Advanced Design Patterns for Amazon DynamoDB - Workshop",
+    "type": "Workshop",
+    "start": 1543247100000,
+    "end": 1543255200000,
+    "location": " – Mirage, Grand Ballroom G, T2"
+  },
+  {
+    "id": "90801",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=90801",
+    "abbreviation": "DAT311-R",
+    "title": "[REPEAT] Building Serverless Applications with Amazon DynamoDB & AWS Lambda - Workshop",
+    "type": "Workshop",
+    "start": 1543347000000,
+    "end": 1543355100000,
+    "location": " – Venetian, Level 4, Marcello 4403, T1"
+  },
+  {
+    "id": "90804",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=90804",
+    "abbreviation": "DAT404-R1",
+    "title": "[REPEAT 1] Advanced Design Patterns for Amazon DynamoDB - Workshop",
+    "type": "Workshop",
+    "start": 1543360500000,
+    "end": 1543368600000,
+    "location": " – Aria West, Level 3, Ironwood 7, T2"
+  },
+  {
+    "id": "23146",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=23146",
+    "abbreviation": "DEV306-R",
+    "title": "[REPEAT] Monitoring for Operational Outcomes and Application Insights: Best Practices",
+    "type": "Workshop",
+    "start": 1543436100000,
+    "end": 1543444200000,
+    "location": " – Venetian, Level 2, Venetian I, T2"
+  },
+  {
+    "id": "89124",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89124",
+    "abbreviation": "DEV326",
+    "title": "Building a DevOps Pipeline on AWS",
+    "type": "Workshop",
+    "start": 1543519800000,
+    "end": 1543527900000,
+    "location": " – MGM, Level 3, Premier Ballroom 309, T1"
+  },
+  {
+    "id": "88838",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=88838",
+    "abbreviation": "GPSWS407",
+    "title": "Automated Solution for Deploying AWS Landing Zone",
+    "type": "Workshop",
+    "start": 1543347000000,
+    "end": 1543355100000,
+    "location": " – Mirage, Mirage Event Center C3, T1"
+  },
+  {
+    "id": "23033",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=23033",
+    "abbreviation": "SEC303",
+    "title": "Architecting Security & Governance across a Multi-Account Strategy",
+    "type": "Session",
+    "start": 1543355100000,
+    "end": 1543358700000,
+    "location": " – MGM, Level 3, Premier Ballroom 319, T2"
+  },
+  {
+    "id": "23169",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=23169",
+    "abbreviation": "IOT305-R",
+    "title": "[REPEAT] AWS IoT Core Workshop",
+    "type": "Workshop",
+    "start": 1543244400000,
+    "end": 1543252500000,
+    "location": " – Mirage, Mirage Event Center C3, T1"
+  },
+  {
+    "id": "91176",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=91176",
+    "abbreviation": "MOB306",
+    "title": "Build a Photo-Sharing App with AI-Powered Face and Object Detection",
+    "type": "Workshop",
+    "start": 1543433400000,
+    "end": 1543441500000,
+    "location": " – Bellagio, Level 1, Grand Ballroom 6, T1"
+  },
+  {
+    "id": "89785",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89785",
+    "abbreviation": "SRV306-R",
+    "title": "[REPEAT] Managing Identity Management, Authentication, and Authorization for Serverless Applications",
+    "type": "Workshop",
+    "start": 1543436100000,
+    "end": 1543444200000,
+    "location": " – Aria West, Level 3, Ironwood 7, T2"
+  },
+  {
+    "id": "88939",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=88939",
+    "abbreviation": "NET410",
+    "title": "Workshop: Deep Dive on Container Networking at Scale on Amazon EKS, Amazon ECS, & Amazon EC2",
+    "type": "Workshop",
+    "start": 1543425300000,
+    "end": 1543433400000,
+    "location": " – Aria West, Level 3, Ironwood 7, T2"
+  },
+  {
+    "id": "89788",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89788",
+    "abbreviation": "SRV202",
+    "title": "Developing Your First Serverless Web Application on AWS",
+    "type": "Workshop",
+    "start": 1543422600000,
+    "end": 1543430700000,
+    "location": " – Mirage, Mirage Event Center C3, T1"
+  },
+  {
+    "id": "91558",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=91558",
+    "abbreviation": "DEV418-R",
+    "title": "[REPEAT] Programming Dynamic AWS CloudFormation Templates",
+    "type": "Workshop",
+    "start": null,
+    "end": null,
+    "location": null
+  },
+  {
+    "id": "89794",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89794",
+    "abbreviation": "SRV307-R",
+    "title": "[REPEAT] Building Serverless Applications with GraphQL and Graph Databases",
+    "type": "Workshop",
+    "start": 1543247100000,
+    "end": 1543255200000,
+    "location": " – Bellagio, Level 1, Grand Ballroom 9, T2"
+  },
+  {
+    "id": "89892",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89892",
+    "abbreviation": "STG401-R",
+    "title": "[REPEAT] Building a Data Lake in Amazon S3 & Amazon Glacier",
+    "type": "Workshop",
+    "start": 1543509000000,
+    "end": 1543517100000,
+    "location": " – Aria East, Plaza Level, Orovada 8, T1"
+  },
+  {
+    "id": "91792",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=91792",
+    "abbreviation": "CMP403-R",
+    "title": "[REPEAT] Running Amazon EKS Workloads on Amazon EC2 Spot Instances",
+    "type": "Workshop",
+    "start": 1543247100000,
+    "end": 1543255200000,
+    "location": " – MGM, Level 3, Premier Ballroom 312, T2"
+  },
+  {
+    "id": "23143",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=23143",
+    "abbreviation": "DEV305-R",
+    "title": "[REPEAT] AWS DevOps Essentials: An Introductory Workshop on CI/CD Best Practices",
+    "type": "Workshop",
+    "start": 1543276800000,
+    "end": 1543284900000,
+    "location": " – Venetian, Level 2, Venetian H, T1"
+  },
+  {
+    "id": "89097",
+    "link": "https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=89097",
+    "abbreviation": "MAE310",
+    "title": "UnicornTrivia - Building a Live Trivia Mobile App Using AWS AppSync, AWS Amplify and AWS Media Services",
+    "type": "Workshop",
+    "start": 1543257900000,
+    "end": 1543266000000,
+    "location": " – Venetian, Level 4, Lando 4205, T2"
+  }
+]
