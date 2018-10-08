@@ -93,7 +93,7 @@ class EventsLoader extends Component {
                 </Button>
                 {this.state.error && (
                   <p className="EventsLoader__error">
-                    Unable to import events:
+                    Unable to import sessions:
                     <pre>{this.state.error}</pre>
                   </p>
                 )}

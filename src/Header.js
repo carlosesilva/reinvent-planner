@@ -17,7 +17,7 @@ class Header extends Component {
           </p>
         </div>
         <Button onClick={this.props.showEventsLoader}>
-          {this.props.hasEvents ? "Update Events" : "Get Started"}
+          {this.props.hasEvents ? "Re-Import Sessions" : "Get Started"}
         </Button>
       </header>
     );

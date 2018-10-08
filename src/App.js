@@ -26,10 +26,6 @@ class App extends Component {
           end: new Date(event.end)
         }))
       });
-    } else {
-      this.setState({
-        isEventsLoaderShown: true
-      });
     }
   }
 
