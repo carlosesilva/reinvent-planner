@@ -1,12 +1,25 @@
-// fetch session time
-var links = document.querySelectorAll(".expandSessionImg");
-links.forEach(link => link.click());
+function retrieveSchedules() {
+  return new Promise(function(resolve) {
+    const links = document.querySelectorAll(".expandSessionImg:not(.expanded)");
+    if (links) {
+      console.log("Retrieving schedules...");
+      links.forEach(link => link.click());
+      setTimeout(function() {
+        console.log("Retrieving schedules: SUCCESS");
+        resolve();
+      }, 2000);
+    } else {
+      resolve();
+    }
+  });
+}
 
-function getSessions() {
+function processSessions() {
+  console.log("Processing sessions...");
   const sessions = [];
   let sessionRows = document.querySelectorAll("#sessionsTab > .sessionRow");
   sessionRows.forEach(session => {
-    console.log(`processing: ${session.getAttribute("id")}`);
+    console.log(`Processing: ${session.getAttribute("id")}`);
     const id = session.getAttribute("id").slice(8);
     const link =
       "https://www.portal.reinvent.awsevents.com/connect/" +
@@ -37,8 +50,8 @@ function getSessions() {
     });
   });
 
-  console.log(sessions);
-  console.log(JSON.stringify(sessions));
+  console.log("Processing sessions: SUCCESS");
+  return sessions;
 }
 
 function getSessionDatetime(session) {
@@ -46,19 +59,14 @@ function getSessionDatetime(session) {
     start: null,
     end: null
   };
-
   try {
     const rawDatetime = session.querySelector(
       ".actionColumn .availableSessions"
     ).childNodes[1].textContent;
-
     const date = rawDatetime.split(", ")[1] + " 2018";
-
     const [timeStart, timeEnd] = rawDatetime.split(", ")[2].split(" - ");
-
-    datetimeStart = Date.parse(date + "," + timeStart);
-    datetimeEnd = Date.parse(date + "," + timeEnd);
-
+    const datetimeStart = Date.parse(date + "," + timeStart);
+    const datetimeEnd = Date.parse(date + "," + timeEnd);
     datetime.start = datetimeStart;
     datetime.end = datetimeEnd;
   } catch (error) {}
@@ -66,4 +74,44 @@ function getSessionDatetime(session) {
   return datetime;
 }
 
-setTimeout(getSessions, 5000);
+function displaySessions(sessions) {
+  console.log("");
+  const modal = document.createElement("div");
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.width = "100vw";
+  modal.style.height = "100vh";
+  modal.style.background = "#3338";
+  modal.style.display = "grid";
+  modal.style.justifyContent = "center";
+  modal.style.alignItems = "center";
+  modal.addEventListener("click", function(event) {
+    if (event.target === this) {
+      console.log("Closing...");
+      document.body.removeChild(this);
+    }
+  });
+
+  const modalContent = document.createElement("div");
+  modalContent.style.width = "75vw";
+  modalContent.style.padding = "2rem";
+  modalContent.style.background = "#fff";
+  modal.appendChild(modalContent);
+
+  const label = document.createElement("label");
+  label.style.fontSize = "20px";
+  label.innerHTML = "Sessions info:";
+  modalContent.appendChild(label);
+
+  const textarea = document.createElement("textarea");
+  textarea.value = JSON.stringify(sessions);
+  textarea.style.width = "100%";
+  textarea.style.height = "50vh";
+  label.appendChild(textarea);
+
+  document.body.appendChild(modal);
+}
+
+retrieveSchedules()
+  .then(() => processSessions())
+  .then(sessions => displaySessions(sessions));
