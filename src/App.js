@@ -67,6 +67,7 @@ class App extends Component {
         <EventsLoader
           isEventsLoaderShown={this.state.isEventsLoaderShown}
           hideEventsLoader={this.hideEventsLoader}
+          onNewEvents={this.onNewEvents}
         />
         <Calendar events={this.state.events} />
       </div>
