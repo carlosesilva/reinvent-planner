@@ -62,12 +62,7 @@ class EventsLoader extends Component {
           Close
         </Button>
         <div className="EventsLoader">
-          <p>
-            <strong>
-              Visualize in a calendar the AWS re:Invent 2018 sessions that you
-              are interested in.
-            </strong>
-          </p>
+          <h2>Import your sessions</h2>
           <ol>
             <li>
               Copy the JS code snippet below: <CodeSnippet />
@@ -87,18 +82,18 @@ class EventsLoader extends Component {
               Paste the code snippet into the browser's console and run it.
             </li>
             <li>
-              Copy the JSON result in the textarea below and hit Upload:
+              Copy the JSON result in the textarea below and hit Import:
               <form className="EventsLoader__form" onSubmit={this.handleSubmit}>
                 <textarea
                   onChange={this.handleChange}
                   value={this.state.rawEventsJson}
                 />
                 <Button disabled={this.state.rawEventsJson.trim().length < 1}>
-                  Upload
+                  Import
                 </Button>
                 {this.state.error && (
                   <p className="EventsLoader__error">
-                    Unable to upload:
+                    Unable to import events:
                     <pre>{this.state.error}</pre>
                   </p>
                 )}

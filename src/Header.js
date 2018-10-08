@@ -9,9 +9,15 @@ class Header extends Component {
   render() {
     return (
       <header className="Header">
-        <h1>re:Invent Planner</h1>
+        <div>
+          <h1>re:Invent Planner</h1>
+          <p>
+            Plan your AWS re:Invent 2018 sessions by visualizing it in a
+            calendar.
+          </p>
+        </div>
         <Button onClick={this.props.showEventsLoader}>
-          {this.props.hasEvents ? "Update Events" : "Upload Events"}
+          {this.props.hasEvents ? "Update Events" : "Get Started"}
         </Button>
       </header>
     );
