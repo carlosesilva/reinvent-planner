@@ -2,9 +2,9 @@
 
 Plan your AWS re:Invent 2018 sessions by visualizing it in a calendar.
 
-Hosted version: http://reinvent-planner.aws.carlosesilva.com
+Hosted app: http://reinvent-planner.aws.carlosesilva.com
 
-Demo: https://www.dropbox.com/s/ox4vf6ahidd3z3y/reinvent-planner.mov?dl=0
+How-to video: https://www.dropbox.com/s/ox4vf6ahidd3z3y/reinvent-planner.mov?dl=0
 
 ## Run it locally
 
