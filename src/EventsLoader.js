@@ -64,8 +64,8 @@ class EventsLoader extends Component {
         <div className="EventsLoader">
           <p>
             <strong>
-              Visualize in calendar format the AWS re:Invent 2018 sessions that
-              you are interested in.
+              Visualize in a calendar the AWS re:Invent 2018 sessions that you
+              are interested in.
             </strong>
           </p>
           <ol>
