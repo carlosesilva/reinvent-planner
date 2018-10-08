@@ -55,7 +55,10 @@ class EventsLoader extends Component {
         contentLabel="Events Loader"
         onRequestClose={this.props.hideEventsLoader}
       >
-        <Button className="close-modal" onClick={this.props.hideEventsLoader}>
+        <Button
+          className="EventsLoader__close"
+          onClick={this.props.hideEventsLoader}
+        >
           Close
         </Button>
         <div className="EventsLoader">
