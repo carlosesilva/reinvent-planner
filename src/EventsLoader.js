@@ -83,7 +83,7 @@ class EventsLoader extends Component {
               Paste the code snippet into the browser's console and run it.
             </li>
             <li>
-              Copy the JSON result in the textarea below and hit Import:
+              Paste the JSON result in the textarea below and hit Import:
               <form className="EventsLoader__form" onSubmit={this.handleSubmit}>
                 <textarea
                   onChange={this.handleChange}
