@@ -1,6 +1,7 @@
 import React from "react";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
+import Event from "./Event";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
@@ -20,6 +21,7 @@ export default ({ events }) => {
         scrollToTime={new Date(2018, 10, 25, 8)}
         tooltipAccessor="tooltip"
         events={events}
+        components={{ event: Event }}
         onDoubleClickEvent={event => {
           if (event.link) {
             window.open(event.link, "_blank");

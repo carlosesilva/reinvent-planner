@@ -42,6 +42,7 @@ class EventsLoader extends Component {
               .replace("–", "")
               .trim();
           return {
+            id: event.id,
             title: `${event.abbreviation} (${location}) [${event.type}]`,
             tooltip: `${event.abbreviation} - ${event.title} (${location}) [${
               event.type
