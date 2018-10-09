@@ -109,6 +109,18 @@ function displaySessions(sessions) {
   textarea.style.height = "50vh";
   label.appendChild(textarea);
 
+  const sessionsWithoutSchedule = sessions.filter(({ start, end }) =>
+    [start, end].includes(null)
+  );
+  if (sessionsWithoutSchedule) {
+    const message = document.createElement("p");
+    const sessionsString = sessionsWithoutSchedule
+      .map(session => session.abbreviation)
+      .join(", ");
+    message.innerHTML = `The following sessions do not have schedule information and therefore will not show up on the calendar: ${sessionsString}`;
+    modalContent.appendChild(message);
+  }
+
   document.body.appendChild(modal);
 }
 
