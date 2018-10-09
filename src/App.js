@@ -9,9 +9,10 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { events: [], isEventsLoaderShown: false };
+    this.state = { events: [], filteredEvents: [], isEventsLoaderShown: false };
 
     this.onNewEvents = this.onNewEvents.bind(this);
+    this.onFilteredEvents = this.onFilteredEvents.bind(this);
     this.showEventsLoader = this.showEventsLoader.bind(this);
     this.hideEventsLoader = this.hideEventsLoader.bind(this);
   }
@@ -53,19 +54,29 @@ class App extends Component {
       isEventsLoaderShown: false
     });
   }
+
+  onFilteredEvents(filteredEvents) {
+    this.setState({
+      filteredEvents
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <Header
           hasEvents={this.state.events.length > 0}
           showEventsLoader={this.showEventsLoader}
+          events={this.state.events}
+          filteredEvents={this.state.filteredEvents}
+          onFilteredEvents={this.onFilteredEvents}
         />
         <EventsLoader
           isEventsLoaderShown={this.state.isEventsLoaderShown}
           hideEventsLoader={this.hideEventsLoader}
           onNewEvents={this.onNewEvents}
         />
-        <Calendar events={this.state.events} />
+        <Calendar events={this.state.filteredEvents} />
       </div>
     );
   }

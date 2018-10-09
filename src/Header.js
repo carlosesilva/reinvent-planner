@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Filters from "./Filters";
 import Button from "./Button";
 
 class Header extends Component {
@@ -16,9 +17,16 @@ class Header extends Component {
             calendar.
           </p>
         </div>
-        <Button onClick={this.props.showEventsLoader}>
-          {this.props.hasEvents ? "Re-Import Sessions" : "Get Started"}
-        </Button>
+        <div>
+          <Button onClick={this.props.showEventsLoader}>
+            {this.props.hasEvents ? "Re-Import Sessions" : "Get Started"}
+          </Button>
+          <Filters
+            events={this.props.events}
+            filteredEvents={this.props.filteredEvents}
+            onFilteredEvents={this.props.onFilteredEvents}
+          />
+        </div>
       </header>
     );
   }
