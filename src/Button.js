@@ -1,14 +1,14 @@
 import React from "react";
 import "./Button.scss";
 
-export default function(props) {
+export default function({ className = "", onClick, disabled, children }) {
   return (
     <button
-      className={`Button ${props.className}`}
-      onClick={props.onClick}
-      disabled={props.disabled}
+      className={`Button ${className}`}
+      onClick={onClick}
+      disabled={disabled}
     >
-      {props.children}
+      {children}
     </button>
   );
 }
