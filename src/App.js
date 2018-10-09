@@ -13,28 +13,11 @@ class App extends Component {
     this.state = {
       events: [],
       filteredEvents: [],
-      isEventsLoaderShown: false,
       isFiltersShown: false
     };
 
-    this.onNewEvents = this.onNewEvents.bind(this);
     this.onFilteredEvents = this.onFilteredEvents.bind(this);
-    this.showEventsLoader = this.showEventsLoader.bind(this);
-    this.hideEventsLoader = this.hideEventsLoader.bind(this);
     this.toggleFilters = this.toggleFilters.bind(this);
-  }
-
-  componentDidMount() {
-    const events = localStorage.getItem("events");
-    if (events) {
-      this.setState({
-        events: JSON.parse(events).map(event => ({
-          ...event,
-          start: new Date(event.start),
-          end: new Date(event.end)
-        }))
-      });
-    }
   }
 
   toggleFilters(show) {
@@ -46,31 +29,6 @@ class App extends Component {
     }
     this.setState({
       isFiltersShown
-    });
-  }
-
-  showEventsLoader() {
-    this.setState({ isEventsLoaderShown: true });
-  }
-
-  hideEventsLoader() {
-    this.setState({ isEventsLoaderShown: false });
-  }
-
-  onNewEvents(events) {
-    localStorage.setItem(
-      "events",
-      JSON.stringify(
-        events.map(event => ({
-          ...event,
-          start: event.start.getTime(),
-          end: event.end.getTime()
-        }))
-      )
-    );
-    this.setState({
-      events,
-      isEventsLoaderShown: false
     });
   }
 
@@ -90,7 +48,6 @@ class App extends Component {
         <Header
           numEvents={this.state.events.length}
           numFilteredEvents={this.state.filteredEvents.length}
-          showEventsLoader={this.showEventsLoader}
           isFiltersShown={this.state.isFiltersShown}
           toggleFilters={this.toggleFilters}
         />
@@ -101,11 +58,7 @@ class App extends Component {
           onFilteredEvents={this.onFilteredEvents}
         />
         <Calendar events={this.state.filteredEvents} />
-        <EventsLoader
-          isEventsLoaderShown={this.state.isEventsLoaderShown}
-          hideEventsLoader={this.hideEventsLoader}
-          onNewEvents={this.onNewEvents}
-        />
+        <EventsLoader />
       </div>
     );
   }
