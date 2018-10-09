@@ -4,6 +4,8 @@
 
 .App {
   display: grid;
+  max-height: 100vh;
+  grid-template-rows: auto 1fr;
 }
 
 .Header {
@@ -61,6 +63,7 @@
 
 .Calendar {
   padding: 1rem;
+  overflow-y: auto;
 }
 
 .ReactModal__Overlay {

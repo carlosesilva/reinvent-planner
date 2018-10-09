@@ -17,6 +17,7 @@ export default ({ events }) => {
         localizer={localizer}
         defaultDate={new Date(2018, 10, 25)}
         defaultView="week"
+        scrollToTime={new Date(2018, 10, 25, 8)}
         tooltipAccessor="tooltip"
         events={events}
         onDoubleClickEvent={event => {
