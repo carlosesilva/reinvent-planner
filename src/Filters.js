@@ -25,7 +25,7 @@ class Filters extends Component {
 
     // Filter based on search.
     filteredEvents = this.props.events.filter(event =>
-      event.title.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+      event.tooltip.toLowerCase().includes(this.state.searchQuery.toLowerCase())
     );
 
     this.props.onFilteredEvents(filteredEvents);
@@ -37,7 +37,7 @@ class Filters extends Component {
 
   render() {
     return (
-      <form>
+      <form onSubmit={event => event.preventDefault()}>
         <label>
           Search:{" "}
           <input

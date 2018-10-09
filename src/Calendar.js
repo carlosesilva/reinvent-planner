@@ -17,6 +17,7 @@ export default ({ events }) => {
         localizer={localizer}
         defaultDate={new Date(2018, 10, 25)}
         defaultView="week"
+        tooltipAccessor="tooltip"
         events={events}
         onDoubleClickEvent={event => {
           if (event.link) {

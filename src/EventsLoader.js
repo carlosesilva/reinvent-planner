@@ -39,6 +39,9 @@ class EventsLoader extends Component {
             .trim();
         return {
           title: `${event.abbreviation} (${location}) [${event.type}]`,
+          tooltip: `${event.abbreviation} - ${event.title} (${location}) [${
+            event.type
+          }]`,
           start: new Date(event.start),
           end: new Date(event.end),
           link: event.link,
