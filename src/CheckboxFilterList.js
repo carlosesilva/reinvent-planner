@@ -11,11 +11,17 @@ export default ({ filters, onFilterChange }) => {
     onFilterChange(newFilters);
   };
 
-  const filterElements = Object.entries(filters).map(([name, checked]) => (
-    <li className="CheckboxFilterList__element" key={name}>
-      <CheckboxFilter name={name} checked={checked} onChange={onChange} />
-    </li>
-  ));
+  const filterElements = Object.keys(filters)
+    .sort()
+    .map(name => (
+      <li className="CheckboxFilterList__element" key={name}>
+        <CheckboxFilter
+          name={name}
+          checked={filters[name]}
+          onChange={onChange}
+        />
+      </li>
+    ));
 
   return <ul className="CheckboxFilterList">{filterElements}</ul>;
 };

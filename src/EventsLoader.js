@@ -30,25 +30,29 @@ class EventsLoader extends Component {
 
     try {
       const rawEvents = JSON.parse(this.state.rawEventsJson);
-      const events = rawEvents.map(event => {
-        const location =
-          event.location &&
-          event.location
-            .split(",")[0]
-            .replace("–", "")
-            .trim();
-        return {
-          title: `${event.abbreviation} (${location}) [${event.type}]`,
-          tooltip: `${event.abbreviation} - ${event.title} (${location}) [${
-            event.type
-          }]`,
-          start: new Date(event.start),
-          end: new Date(event.end),
-          link: event.link,
-          type: event.type,
-          location
-        };
-      });
+      const events = rawEvents
+        // Filter out events that have no time information.
+        .filter(event => ![event.start, event.end].includes(null))
+        // Map events to calendar format.
+        .map(event => {
+          const location =
+            event.location &&
+            event.location
+              .split(",")[0]
+              .replace("–", "")
+              .trim();
+          return {
+            title: `${event.abbreviation} (${location}) [${event.type}]`,
+            tooltip: `${event.abbreviation} - ${event.title} (${location}) [${
+              event.type
+            }]`,
+            start: new Date(event.start),
+            end: new Date(event.end),
+            link: event.link,
+            type: event.type,
+            location
+          };
+        });
       localStorage.setItem("rawEventsJson", this.state.rawEventsJson);
       this.props.onNewEvents(events);
     } catch (error) {

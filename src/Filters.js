@@ -38,13 +38,10 @@ class Filters extends Component {
   }
 
   getTypeFilters() {
-    debugger;
     const typeFilters = {};
 
     this.props.events.forEach(event => {
-      if (event.type) {
-        typeFilters[event.type] = true;
-      }
+      typeFilters[event.type] = true;
     });
 
     return typeFilters;
@@ -54,9 +51,7 @@ class Filters extends Component {
     const locationFilters = {};
 
     this.props.events.forEach(event => {
-      if (event.location) {
-        locationFilters[event.location] = true;
-      }
+      locationFilters[event.location] = true;
     });
 
     return locationFilters;
@@ -66,9 +61,13 @@ class Filters extends Component {
     let filteredEvents = [...this.props.events];
 
     // Filter based on search.
-    filteredEvents = filteredEvents.filter(event =>
-      event.tooltip.toLowerCase().includes(this.state.searchQuery.toLowerCase())
-    );
+    if (this.state.searchQuery.trim()) {
+      filteredEvents = filteredEvents.filter(event =>
+        event.tooltip
+          .toLowerCase()
+          .includes(this.state.searchQuery.trim().toLowerCase())
+      );
+    }
 
     // Filter based on locations.
     filteredEvents = filteredEvents.filter(
@@ -88,34 +87,51 @@ class Filters extends Component {
   }
 
   render() {
-    debugger;
+    if (this.props.events.length < 1 || !this.props.isFiltersShown) {
+      return null;
+    }
     return (
-      <form onSubmit={event => event.preventDefault()}>
-        <div>
-          <label>
-            Search:{" "}
-            <input
-              type="text"
-              value={this.state.searchQuery}
-              onChange={event =>
-                this.onFilterChange({ searchQuery: event.target.value })
+      <div className="Filters">
+        <h2>Filters</h2>
+        <form
+          className="Filters__form"
+          onSubmit={event => event.preventDefault()}
+        >
+          <div>
+            <label>
+              <strong>Search:</strong>
+              <br />
+              <input
+                type="text"
+                value={this.state.searchQuery}
+                onChange={event =>
+                  this.onFilterChange({
+                    searchQuery: event.target.value
+                  })
+                }
+              />
+            </label>
+          </div>
+          <div>
+            <strong>Location:</strong>
+            <CheckboxFilterList
+              filters={this.state.locationFilters}
+              onFilterChange={newFilters =>
+                this.onFilterChange({ locationFilters: newFilters })
               }
             />
-          </label>
-        </div>
-        <CheckboxFilterList
-          filters={this.state.locationFilters}
-          onFilterChange={newFilters =>
-            this.onFilterChange({ locationFilters: newFilters })
-          }
-        />
-        <CheckboxFilterList
-          filters={this.state.typeFilters}
-          onFilterChange={newFilters =>
-            this.onFilterChange({ typeFilters: newFilters })
-          }
-        />
-      </form>
+          </div>
+          <div>
+            <strong>Type:</strong>
+            <CheckboxFilterList
+              filters={this.state.typeFilters}
+              onFilterChange={newFilters =>
+                this.onFilterChange({ typeFilters: newFilters })
+              }
+            />
+          </div>
+        </form>
+      </div>
     );
   }
 }
