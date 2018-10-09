@@ -45,6 +45,7 @@ class EventsLoader extends Component {
           start: new Date(event.start),
           end: new Date(event.end),
           link: event.link,
+          type: event.type,
           location
         };
       });

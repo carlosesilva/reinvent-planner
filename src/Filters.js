@@ -1,29 +1,56 @@
 import React, { Component } from "react";
+import CheckboxFilterList from "./CheckboxFilterList";
+
 class Filters extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchQuery: "",
-      locationFilters: {}
+      locationFilters: {},
+      typeFilters: {}
     };
 
     this.filterEvents = this.filterEvents.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
-    this.renderLocationFilter = this.renderLocationFilter.bind(this);
-    this.updateLocationFilters = this.updateLocationFilters.bind(this);
+    this.updateFilters = this.updateFilters.bind(this);
+    this.getLocationFilters = this.getLocationFilters.bind(this);
+    this.getTypeFilters = this.getTypeFilters.bind(this);
   }
 
   componentDidMount() {
-    this.updateLocationFilters();
+    this.updateFilters();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.events !== prevProps.events) {
-      this.updateLocationFilters();
+      this.updateFilters();
     }
   }
 
-  updateLocationFilters() {
+  updateFilters() {
+    this.setState(
+      {
+        locationFilters: this.getLocationFilters(),
+        typeFilters: this.getTypeFilters()
+      },
+      this.filterEvents
+    );
+  }
+
+  getTypeFilters() {
+    debugger;
+    const typeFilters = {};
+
+    this.props.events.forEach(event => {
+      if (event.type) {
+        typeFilters[event.type] = true;
+      }
+    });
+
+    return typeFilters;
+  }
+
+  getLocationFilters() {
     const locationFilters = {};
 
     this.props.events.forEach(event => {
@@ -32,12 +59,7 @@ class Filters extends Component {
       }
     });
 
-    this.setState(
-      {
-        locationFilters
-      },
-      this.filterEvents
-    );
+    return locationFilters;
   }
 
   filterEvents() {
@@ -53,6 +75,11 @@ class Filters extends Component {
       event => this.state.locationFilters[event.location]
     );
 
+    // Filter based on type.
+    filteredEvents = filteredEvents.filter(
+      event => this.state.typeFilters[event.type]
+    );
+
     this.props.onFilteredEvents(filteredEvents);
   }
 
@@ -60,33 +87,8 @@ class Filters extends Component {
     this.setState(newState, this.filterEvents);
   }
 
-  renderLocationFilter() {
-    const locationFilters = Object.entries(this.state.locationFilters).map(
-      ([location, checked]) => (
-        <li key={location}>
-          <label>
-            <input
-              type="checkbox"
-              name={location}
-              onChange={event =>
-                this.onFilterChange({
-                  locationFilters: {
-                    ...this.state.locationFilters,
-                    [location]: !this.state.locationFilters[location]
-                  }
-                })
-              }
-              checked={checked}
-            />
-            {location}
-          </label>
-        </li>
-      )
-    );
-    return <ul className="Filters__checkboxes">{locationFilters}</ul>;
-  }
-
   render() {
+    debugger;
     return (
       <form onSubmit={event => event.preventDefault()}>
         <div>
@@ -101,7 +103,18 @@ class Filters extends Component {
             />
           </label>
         </div>
-        {this.renderLocationFilter()}
+        <CheckboxFilterList
+          filters={this.state.locationFilters}
+          onFilterChange={newFilters =>
+            this.onFilterChange({ locationFilters: newFilters })
+          }
+        />
+        <CheckboxFilterList
+          filters={this.state.typeFilters}
+          onFilterChange={newFilters =>
+            this.onFilterChange({ typeFilters: newFilters })
+          }
+        />
       </form>
     );
   }
