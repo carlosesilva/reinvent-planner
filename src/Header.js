@@ -17,7 +17,7 @@ class Header extends Component {
             calendar.
           </p>
         </div>
-        <div>
+        <div className="Header__controls">
           <Button onClick={this.props.showEventsLoader}>
             {this.props.hasEvents ? "Re-Import Sessions" : "Get Started"}
           </Button>

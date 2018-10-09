@@ -16,6 +16,11 @@
   padding: 0 2rem;
   color: #333;
   border-bottom: 1px solid #ccc;
+
+  .Header__controls {
+    display: grid;
+    grid-gap: 1rem;
+  }
 }
 
 .EventsLoader {
