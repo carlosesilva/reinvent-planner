@@ -1,5 +1,6 @@
 // Import action types.
 import {
+  LOAD_APP_SUCCESS,
   IMPORT_EVENTS_SUCCESS,
   IMPORT_EVENTS_FAIL,
   TOGGLE_EVENTS_LOADER,
@@ -17,6 +18,11 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case LOAD_APP_SUCCESS:
+      return {
+        ...state,
+        events: action.payload.events
+      };
     case IMPORT_EVENTS_SUCCESS:
       return {
         ...state,
