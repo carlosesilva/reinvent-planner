@@ -2,13 +2,17 @@
 import {
   IMPORT_EVENTS_SUCCESS,
   IMPORT_EVENTS_FAIL,
-  TOGGLE_EVENTS_LOADER
+  TOGGLE_EVENTS_LOADER,
+  FILTER_EVENTS,
+  TOGGLE_FILTERS
 } from "../actions/types";
 
 const INITIAL_STATE = {
   events: [],
+  filteredEvents: [],
   isEventsLoaderShown: false,
   importError: "",
+  isFiltersShown: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -35,6 +39,22 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isEventsLoaderShown: action.payload
+      };
+    case FILTER_EVENTS:
+      return {
+        ...state,
+        filteredEvents: action.payload
+      };
+    case TOGGLE_FILTERS:
+      if (action.payload === null) {
+        return {
+          ...state,
+          isFiltersShown: !state.isFiltersShown
+        };
+      }
+      return {
+        ...state,
+        isFiltersShown: action.payload
       };
     default:
       return state;

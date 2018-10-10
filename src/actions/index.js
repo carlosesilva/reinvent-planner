@@ -2,12 +2,12 @@
 import {
   IMPORT_EVENTS_SUCCESS,
   IMPORT_EVENTS_FAIL,
-  TOGGLE_EVENTS_LOADER
+  TOGGLE_EVENTS_LOADER,
+  FILTER_EVENTS,
+  TOGGLE_FILTERS
 } from "./types";
 
 export const importEvents = eventsJson => {
-  console.log(eventsJson);
-
   try {
     const rawEvents = JSON.parse(eventsJson);
     const events = rawEvents
@@ -40,15 +40,24 @@ export const importEvents = eventsJson => {
       payload: events
     };
   } catch (error) {
-    debugger;
     return {
       type: IMPORT_EVENTS_FAIL,
-      payload: error
+      payload: error.toString()
     };
   }
 };
 
 export const toggleEventsLoader = (toggle = null) => ({
   type: TOGGLE_EVENTS_LOADER,
+  payload: toggle
+});
+
+export const filterEvents = filteredEvents => ({
+  type: FILTER_EVENTS,
+  payload: filteredEvents
+});
+
+export const toggleFilters = (toggle = null) => ({
+  type: TOGGLE_FILTERS,
   payload: toggle
 });

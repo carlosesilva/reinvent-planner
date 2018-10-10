@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import CheckboxFilterList from "./CheckboxFilterList";
+import { filterEvents } from "./actions";
 
 class Filters extends Component {
   constructor(props) {
@@ -15,10 +17,6 @@ class Filters extends Component {
     this.updateFilters = this.updateFilters.bind(this);
     this.getLocationFilters = this.getLocationFilters.bind(this);
     this.getTypeFilters = this.getTypeFilters.bind(this);
-  }
-
-  componentDidMount() {
-    this.updateFilters();
   }
 
   componentDidUpdate(prevProps) {
@@ -79,7 +77,7 @@ class Filters extends Component {
       event => this.state.typeFilters[event.type]
     );
 
-    this.props.onFilteredEvents(filteredEvents);
+    this.props.filterEvents(filteredEvents);
   }
 
   onFilterChange(newState) {
@@ -136,4 +134,13 @@ class Filters extends Component {
   }
 }
 
-export default Filters;
+const mapStateToProps = ({ events }) => ({
+  events: events.events,
+  filteredEvents: events.filteredEvents,
+  isFiltersShown: events.isFiltersShown
+});
+
+export default connect(
+  mapStateToProps,
+  { filterEvents }
+)(Filters);

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import Header from "./Header";
 import Filters from "./Filters";
 import EventsLoader from "./EventsLoader";
@@ -7,61 +8,25 @@ import Calendar from "./Calendar";
 import "./App.scss";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      events: [],
-      filteredEvents: [],
-      isFiltersShown: false
-    };
-
-    this.onFilteredEvents = this.onFilteredEvents.bind(this);
-    this.toggleFilters = this.toggleFilters.bind(this);
+const App = ({ isFiltersShown, filteredEvents }) => {
+  const classNames = ["App"];
+  if (isFiltersShown) {
+    classNames.push("App-showFilters");
   }
 
-  toggleFilters(show) {
-    let isFiltersShown = this.state.isFiltersShown;
-    if (typeof show === "undefined") {
-      isFiltersShown = !isFiltersShown;
-    } else {
-      isFiltersShown = show;
-    }
-    this.setState({
-      isFiltersShown
-    });
-  }
+  return (
+    <div className={classNames.join(" ")}>
+      <Header />
+      <Filters />
+      <Calendar events={filteredEvents} />
+      <EventsLoader />
+    </div>
+  );
+};
 
-  onFilteredEvents(filteredEvents) {
-    this.setState({
-      filteredEvents
-    });
-  }
+const mapStateToProps = ({ events }) => ({
+  filteredEvents: events.filteredEvents,
+  isFiltersShown: events.isFiltersShown
+});
 
-  render() {
-    const classNames = ["App"];
-    if (this.state.isFiltersShown) {
-      classNames.push("App-showFilters");
-    }
-    return (
-      <div className={classNames.join(" ")}>
-        <Header
-          numEvents={this.state.events.length}
-          numFilteredEvents={this.state.filteredEvents.length}
-          isFiltersShown={this.state.isFiltersShown}
-          toggleFilters={this.toggleFilters}
-        />
-        <Filters
-          isFiltersShown={this.state.isFiltersShown}
-          events={this.state.events}
-          filteredEvents={this.state.filteredEvents}
-          onFilteredEvents={this.onFilteredEvents}
-        />
-        <Calendar events={this.state.filteredEvents} />
-        <EventsLoader />
-      </div>
-    );
-  }
-}
-
-export default App;
+export default connect(mapStateToProps)(App);
