@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Button from "./Button";
+import { toggleEventsLoader, toggleFilters } from "./actions";
 
 class Header extends Component {
   constructor(props) {
@@ -17,13 +19,19 @@ class Header extends Component {
           </p>
         </div>
         <div className="Header__controls">
-          <Button onClick={this.props.showEventsLoader}>
-            {this.props.numEvents ? "Re-Import Sessions" : "Get Started"}
+          <Button
+            onClick={() => {
+              this.props.toggleEventsLoader(true);
+            }}
+          >
+            {this.props.events.length ? "Re-Import Sessions" : "Get Started"}
           </Button>
-          {this.props.numEvents ? (
+          {this.props.events.length ? (
             <Button onClick={() => this.props.toggleFilters()}>
               {this.props.isFiltersShown ? "Hide Filters" : "Show Filters"}
-              {` (${this.props.numFilteredEvents}/${this.props.numEvents})`}
+              {` (${this.props.filteredEvents.length}/${
+                this.props.events.length
+              })`}
             </Button>
           ) : null}
         </div>
@@ -32,4 +40,13 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = ({ events }) => ({
+  events: events.events,
+  filteredEvents: events.filteredEvents,
+  isFiltersShown: events.isFiltersShown
+});
+
+export default connect(
+  mapStateToProps,
+  { toggleEventsLoader, toggleFilters }
+)(Header);
