@@ -1,65 +1,35 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import ReactModal from "react-modal";
 import CodeSnippet from "./CodeSnippet";
 import Button from "./Button";
+import { importEvents, toggleEventsLoader } from "./actions";
 
 ReactModal.setAppElement("#root");
 
 class EventsLoader extends Component {
   constructor(props) {
     super(props);
-    this.state = { rawEventsJson: "", error: null };
+    this.state = { rawEvents: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    const rawEventsJson = localStorage.getItem("rawEventsJson");
-    if (rawEventsJson) {
-      this.setState({ rawEventsJson });
+    const rawEvents = localStorage.getItem("rawEvents");
+    if (rawEvents) {
+      this.setState({ rawEvents });
     }
   }
 
   handleChange(event) {
-    this.setState({ rawEventsJson: event.target.value, error: null });
+    this.setState({ rawEvents: event.target.value });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-
-    try {
-      const rawEvents = JSON.parse(this.state.rawEventsJson);
-      const events = rawEvents
-        // Filter out events that have no time information.
-        .filter(event => ![event.start, event.end].includes(null))
-        // Map events to calendar format.
-        .map(event => {
-          const location =
-            event.location &&
-            event.location
-              .split(",")[0]
-              .replace("–", "")
-              .trim();
-          return {
-            title: `${event.abbreviation} (${location}) [${event.type}]`,
-            tooltip: `${event.abbreviation} - ${event.title} (${location}) [${
-              event.type
-            }]`,
-            start: new Date(event.start),
-            end: new Date(event.end),
-            link: event.link,
-            type: event.type,
-            location
-          };
-        });
-      localStorage.setItem("rawEventsJson", this.state.rawEventsJson);
-      this.props.onNewEvents(events);
-    } catch (error) {
-      this.setState({
-        error: error.toString()
-      });
-    }
+    this.props.importEvents(this.state.rawEvents);
   }
 
   render() {
@@ -67,11 +37,11 @@ class EventsLoader extends Component {
       <ReactModal
         isOpen={this.props.isEventsLoaderShown}
         contentLabel="Events Loader"
-        onRequestClose={this.props.hideEventsLoader}
+        onRequestClose={() => this.props.toggleEventsLoader(false)}
       >
         <Button
           className="EventsLoader__close"
-          onClick={this.props.hideEventsLoader}
+          onClick={() => this.props.toggleEventsLoader(false)}
         >
           Close
         </Button>
@@ -110,16 +80,16 @@ class EventsLoader extends Component {
               <form className="EventsLoader__form" onSubmit={this.handleSubmit}>
                 <textarea
                   onChange={this.handleChange}
-                  value={this.state.rawEventsJson}
+                  value={this.state.rawEvents}
                 />
-                <Button disabled={this.state.rawEventsJson.trim().length < 1}>
+                <Button disabled={this.state.rawEvents.trim().length < 1}>
                   Import
                 </Button>
-                {this.state.error && (
-                  <p className="EventsLoader__error">
-                    Unable to import sessions:
-                    <pre>{this.state.error}</pre>
-                  </p>
+                {this.props.importError && (
+                  <div className="EventsLoader__error">
+                    Sorry, unable to import. The following error happened:
+                    <pre>{this.props.importError}</pre>
+                  </div>
                 )}
               </form>
             </li>
@@ -130,4 +100,12 @@ class EventsLoader extends Component {
   }
 }
 
-export default EventsLoader;
+const mapStateToProps = ({ events }) => ({
+  isEventsLoaderShown: events.isEventsLoaderShown,
+  importError: events.importError
+});
+
+export default connect(
+  mapStateToProps,
+  { importEvents, toggleEventsLoader }
+)(EventsLoader);
