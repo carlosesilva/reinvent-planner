@@ -11,8 +11,10 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.5.2",
     "react-modal": "^3.6.1",
+    "react-redux": "^5.0.7",
     "react-scripts": "2.0.4",
-    "react-syntax-highlighter": "^8.0.1"
+    "react-syntax-highlighter": "^8.0.1",
+    "redux": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,5 +30,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.5"
+  }
 }
