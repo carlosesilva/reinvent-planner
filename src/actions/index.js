@@ -71,7 +71,7 @@ export const loadApp = () => {
       type: LOAD_APP_SUCCESS,
       payload: {
         events,
-        eventsUserData,
+        eventsUserData: eventsUserData ? eventsUserData : {},
         locations,
         types
       }
