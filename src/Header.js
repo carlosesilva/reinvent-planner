@@ -24,14 +24,12 @@ class Header extends Component {
               this.props.toggleEventsLoader(true);
             }}
           >
-            {this.props.events.length ? "Re-Import Sessions" : "Get Started"}
+            {this.props.numEvents ? "Re-Import Sessions" : "Get Started"}
           </Button>
-          {this.props.events.length ? (
+          {this.props.numEvents ? (
             <Button onClick={() => this.props.toggleFilters()}>
               {this.props.isFiltersShown ? "Hide Filters" : "Show Filters"}
-              {` (${this.props.filteredEvents.length}/${
-                this.props.events.length
-              })`}
+              {` (${this.props.numFilteredEvents}/${this.props.numEvents})`}
             </Button>
           ) : null}
         </div>
@@ -41,8 +39,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = ({ events }) => ({
-  events: events.events,
-  filteredEvents: events.filteredEvents,
+  numEvents: Object.keys(events.events).length,
+  numFilteredEvents: Object.keys(events.filteredEvents).length,
   isFiltersShown: events.isFiltersShown
 });
 

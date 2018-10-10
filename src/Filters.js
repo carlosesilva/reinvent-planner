@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import _ from "lodash-es";
 import CheckboxFilterList from "./CheckboxFilterList";
 import { filterEvents } from "./actions";
 
@@ -36,45 +37,57 @@ class Filters extends Component {
   }
 
   getTypeFilters() {
-    const typeFilters = {};
-
-    this.props.events.forEach(event => {
-      typeFilters[event.type] = true;
-    });
-
-    return typeFilters;
+    return _.reduce(
+      this.props.events,
+      (typeFilters, event) => {
+        typeFilters[event.type] = true;
+        return typeFilters;
+      },
+      {}
+    );
   }
 
   getLocationFilters() {
-    const locationFilters = {};
-
-    this.props.events.forEach(event => {
-      locationFilters[event.location] = true;
-    });
-
+    const locationFilters = _.reduce(
+      this.props.events,
+      (accumulator, event) => {
+        accumulator[event.location] = true;
+        return accumulator;
+      },
+      {}
+    );
     return locationFilters;
   }
 
   filterEvents() {
-    let filteredEvents = [...this.props.events];
+    let filteredEvents = _.reduce(
+      this.props.events,
+      (filteredEvents, event) => {
+        // Filter based on search.
+        if (this.state.searchQuery.trim()) {
+          if (
+            !event.tooltip
+              .toLowerCase()
+              .includes(this.state.searchQuery.trim().toLowerCase())
+          ) {
+            return filteredEvents;
+          }
+        }
 
-    // Filter based on search.
-    if (this.state.searchQuery.trim()) {
-      filteredEvents = filteredEvents.filter(event =>
-        event.tooltip
-          .toLowerCase()
-          .includes(this.state.searchQuery.trim().toLowerCase())
-      );
-    }
+        // Filter based on locations.
+        if (!this.state.locationFilters[event.location]) {
+          return filteredEvents;
+        }
 
-    // Filter based on locations.
-    filteredEvents = filteredEvents.filter(
-      event => this.state.locationFilters[event.location]
-    );
+        // Filter based on type.
+        if (!this.state.typeFilters[event.type]) {
+          return filteredEvents;
+        }
 
-    // Filter based on type.
-    filteredEvents = filteredEvents.filter(
-      event => this.state.typeFilters[event.type]
+        filteredEvents.push(event);
+        return filteredEvents;
+      },
+      []
     );
 
     this.props.filterEvents(filteredEvents);

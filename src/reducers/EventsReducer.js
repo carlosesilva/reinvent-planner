@@ -9,7 +9,9 @@ import {
 } from "../actions/types";
 
 const INITIAL_STATE = {
-  events: [],
+  events: {},
+  locations: [],
+  types: [],
   filteredEvents: [],
   isEventsLoaderShown: false,
   importError: "",
@@ -19,14 +21,19 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_APP_SUCCESS:
+      console.log("LOAD_APP_SUCCESS", action.payload);
       return {
         ...state,
-        events: action.payload.events
+        events: action.payload.events,
+        locations: action.payload.locations,
+        types: action.payload.types
       };
     case IMPORT_EVENTS_SUCCESS:
       return {
         ...state,
-        events: action.payload,
+        events: action.payload.events,
+        locations: action.payload.locations,
+        types: action.payload.types,
         importError: "",
         isEventsLoaderShown: false
       };

@@ -11,18 +11,34 @@ import {
 
 function parseEvents(eventsJson) {
   const rawEvents = JSON.parse(eventsJson);
-  const events = rawEvents
+  const events = {};
+  const locations = [];
+  const types = [];
+
+  rawEvents
     // Filter out events that have no time information.
     .filter(event => ![event.start, event.end].includes(null))
     // Map events to calendar format.
-    .map(event => {
+    .forEach(event => {
+      // Process event location.
       const location =
         event.location &&
         event.location
           .split(",")[0]
           .replace("–", "")
           .trim();
-      return {
+      if (!locations.includes(location)) {
+        locations.push(location);
+      }
+
+      // Process event type.
+      const type = event.type;
+      if (!types.includes(type)) {
+        types.push(type);
+      }
+
+      // Add event to events object.
+      events[event.id] = {
         id: event.id,
         title: `${event.abbreviation} (${location}) [${event.type}]`,
         tooltip: `${event.abbreviation} - ${event.title} (${location}) [${
@@ -31,20 +47,24 @@ function parseEvents(eventsJson) {
         start: new Date(event.start),
         end: new Date(event.end),
         link: event.link,
-        type: event.type,
+        type,
         location
       };
     });
-  return events;
+  return {
+    events,
+    locations,
+    types
+  };
 }
 
 export const loadApp = () => {
   try {
     const eventsJson = localStorage.getItem("rawEventsJson");
-    const events = parseEvents(eventsJson);
+    const { events, locations, types } = parseEvents(eventsJson);
     return {
       type: LOAD_APP_SUCCESS,
-      payload: { events }
+      payload: { events, locations, types }
     };
   } catch (error) {
     return {
@@ -56,11 +76,11 @@ export const loadApp = () => {
 
 export const importEvents = eventsJson => {
   try {
-    const events = parseEvents(eventsJson);
+    const { events, locations, types } = parseEvents(eventsJson);
     localStorage.setItem("rawEventsJson", eventsJson);
     return {
       type: IMPORT_EVENTS_SUCCESS,
-      payload: events
+      payload: { events, locations, types }
     };
   } catch (error) {
     return {

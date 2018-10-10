@@ -11,9 +11,8 @@ export default props => {
     console.log(e, data);
   };
 
-  debugger;
   return (
-    <div ClassName="Event">
+    <div className="Event">
       <ContextMenuTrigger id={id}>
         <div title={tooltip}>{title}</div>
       </ContextMenuTrigger>
