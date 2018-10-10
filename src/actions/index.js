@@ -1,5 +1,3 @@
-import _ from "lodash-es";
-
 // Import action types.
 import {
   LOAD_APP_SUCCESS,
@@ -63,40 +61,20 @@ function parseEvents(rawEventsJson) {
 }
 
 export const loadApp = () => {
-  const payload = {
-    events: {},
-    locations: [],
-    types: []
-  };
   try {
-    const eventsJson = localStorage.getItem("events");
-    if (eventsJson) {
-      payload.events = _.mapValues(JSON.parse(eventsJson), event => ({
-        ...event,
-        start: new Date(event.start),
-        end: new Date(event.end)
-      }));
+    const rawEventsJson = localStorage.getItem("rawEvents");
+    const { events, locations, types } = parseEvents(rawEventsJson);
 
-      Object.values(payload.events).forEach(event => {
-        if (!payload.locations.includes(event.location)) {
-          payload.locations.push(event.location);
-        }
-        if (!payload.types.includes(event.type)) {
-          payload.types.push(event.type);
-        }
-      });
-    } else {
-      const rawEventsJson = localStorage.getItem("rawEvents");
-      if (rawEventsJson) {
-        const parseEventsResults = parseEvents(rawEventsJson);
-        payload.events = parseEventsResults.events;
-        payload.locations = parseEventsResults.locations;
-        payload.types = parseEventsResults.types;
-      }
-    }
+    const eventsUserData = JSON.parse(localStorage.getItem("eventsUserData"));
+
     return {
       type: LOAD_APP_SUCCESS,
-      payload
+      payload: {
+        events,
+        eventsUserData,
+        locations,
+        types
+      }
     };
   } catch (error) {
     return {

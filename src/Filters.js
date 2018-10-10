@@ -22,8 +22,8 @@ class Filters extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // Populate filters.
     const newState = {};
-
     if (prevProps.locations !== this.props.locations) {
       newState.locationFilters = this.props.locations.reduce(
         (accumulator, location) => {
@@ -41,21 +41,39 @@ class Filters extends Component {
       this.setState(newState, this.filterEvents);
     }
 
-    if (this.props.events !== prevProps.events) {
+    // Filter events if events or eventsUserData has changed.
+    if (
+      this.props.events !== prevProps.events ||
+      this.props.eventsUserData !== prevProps.eventsUserData
+    ) {
       this.filterEvents();
     }
   }
 
   filterEvents() {
+    const { events, eventsUserData } = this.props;
     let filteredEvents = _.reduce(
-      this.props.events,
+      events,
       (filteredEvents, event) => {
-        // Filter deleted.
-        if (
-          !this.state.deletedFilter["Show Deleted"] &&
-          event.deleted === true
-        ) {
-          return filteredEvents;
+        // Filters based on user added data:
+        const eventUserData = eventsUserData.hasOwnProperty(event.id)
+          ? eventsUserData[event.id]
+          : null;
+        if (eventUserData) {
+          // Filter deleted.
+          if (
+            !this.state.deletedFilter["Show Deleted"] &&
+            eventUserData.deleted === true
+          ) {
+            return filteredEvents;
+          }
+          // Filter based on priority.
+          const eventPriority = eventUserData.priority
+            ? eventUserData.priority
+            : "Nonprioritized";
+          if (!this.state.priorityFilters[eventPriority]) {
+            return filteredEvents;
+          }
         }
 
         // Filter based on search.
@@ -76,14 +94,6 @@ class Filters extends Component {
 
         // Filter based on type.
         if (!this.state.typeFilters[event.type]) {
-          return filteredEvents;
-        }
-
-        // Filter based on priority.
-        const eventPriority = event.priority
-          ? event.priority
-          : "Nonprioritized";
-        if (!this.state.priorityFilters[eventPriority]) {
           return filteredEvents;
         }
 
@@ -170,14 +180,16 @@ class Filters extends Component {
   }
 }
 
-const mapStateToProps = ({ events }) => ({
-  events: events.events,
-  filteredEvents: events.filteredEvents,
-  isFiltersShown: events.isFiltersShown,
-  locations: events.locations,
-  types: events.types,
-  priorities: events.priorities
-});
+const mapStateToProps = ({ events }) => {
+  return {
+    events: events.events,
+    eventsUserData: events.eventsUserData,
+    isFiltersShown: events.isFiltersShown,
+    locations: events.locations,
+    types: events.types,
+    priorities: events.priorities
+  };
+};
 
 export default connect(
   mapStateToProps,

@@ -12,6 +12,7 @@ import {
 
 const INITIAL_STATE = {
   events: {},
+  eventsUserData: {},
   locations: [],
   types: [],
   priorities: ["High", "Medium", "Low", "Nonprioritized"],
@@ -27,6 +28,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         events: action.payload.events,
+        eventsUserData: action.payload.eventsUserData,
         locations: action.payload.locations,
         types: action.payload.types
       };
@@ -73,29 +75,29 @@ export default (state = INITIAL_STATE, action) => {
       };
     case SET_EVENT_PRIORITY: {
       const { id, priority } = action.payload;
-      const updatedEvent = {
-        ...state.events[id],
+      const newEventUserData = {
+        ...state.eventsUserData[id],
         priority
       };
       return {
         ...state,
-        events: {
-          ...state.events,
-          [id]: updatedEvent
+        eventsUserData: {
+          ...state.eventsUserData,
+          [id]: newEventUserData
         }
       };
     }
     case SET_EVENT_DELETE_STATE: {
       const { id, deleted } = action.payload;
-      const updatedEvent = {
-        ...state.events[id],
+      const newEventUserData = {
+        ...state.eventsUserData[id],
         deleted
       };
       return {
         ...state,
-        events: {
-          ...state.events,
-          [id]: updatedEvent
+        eventsUserData: {
+          ...state.eventsUserData,
+          [id]: newEventUserData
         }
       };
     }
