@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import _ from "lodash-es";
 import CheckboxFilterList from "./CheckboxFilterList";
 import { filterEvents } from "./actions";
+import { getMergedEvents } from "./selectors";
 
 class Filters extends Component {
   constructor(props) {
@@ -41,39 +42,41 @@ class Filters extends Component {
       this.setState(newState, this.filterEvents);
     }
 
-    // Filter events if events or eventsUserData has changed.
-    if (
-      this.props.events !== prevProps.events ||
-      this.props.eventsUserData !== prevProps.eventsUserData
-    ) {
+    // Filter events if events has changed.
+    if (this.props.events !== prevProps.events) {
       this.filterEvents();
     }
   }
 
   filterEvents() {
-    const { events, eventsUserData } = this.props;
+    const { events } = this.props;
+    console.log("filterEvents", events);
     let filteredEvents = _.reduce(
       events,
       (filteredEvents, event) => {
-        // Filters based on user added data:
-        const eventUserData = eventsUserData.hasOwnProperty(event.id)
-          ? eventsUserData[event.id]
-          : null;
-        if (eventUserData) {
-          // Filter deleted.
-          if (
-            !this.state.deletedFilter["Show Deleted"] &&
-            eventUserData.deleted === true
-          ) {
-            return filteredEvents;
-          }
-          // Filter based on priority.
-          const eventPriority = eventUserData.priority
-            ? eventUserData.priority
-            : "Nonprioritized";
-          if (!this.state.priorityFilters[eventPriority]) {
-            return filteredEvents;
-          }
+        // Filter deleted.
+        if (
+          !this.state.deletedFilter["Show Deleted"] &&
+          event.deleted === true
+        ) {
+          return filteredEvents;
+        }
+        // Filter based on priority.
+        const eventPriority = event.priority
+          ? event.priority
+          : "Nonprioritized";
+        if (!this.state.priorityFilters[eventPriority]) {
+          return filteredEvents;
+        }
+
+        // Filter based on locations.
+        if (!this.state.locationFilters[event.location]) {
+          return filteredEvents;
+        }
+
+        // Filter based on type.
+        if (!this.state.typeFilters[event.type]) {
+          return filteredEvents;
         }
 
         // Filter based on search.
@@ -85,16 +88,6 @@ class Filters extends Component {
           ) {
             return filteredEvents;
           }
-        }
-
-        // Filter based on locations.
-        if (!this.state.locationFilters[event.location]) {
-          return filteredEvents;
-        }
-
-        // Filter based on type.
-        if (!this.state.typeFilters[event.type]) {
-          return filteredEvents;
         }
 
         filteredEvents.push(event);
@@ -180,14 +173,13 @@ class Filters extends Component {
   }
 }
 
-const mapStateToProps = ({ events }) => {
+const mapStateToProps = state => {
   return {
-    events: events.events,
-    eventsUserData: events.eventsUserData,
-    isFiltersShown: events.isFiltersShown,
-    locations: events.locations,
-    types: events.types,
-    priorities: events.priorities
+    events: getMergedEvents(state),
+    isFiltersShown: state.events.isFiltersShown,
+    locations: state.events.locations,
+    types: state.events.types,
+    priorities: state.events.priorities
   };
 };
 
