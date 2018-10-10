@@ -85,11 +85,11 @@ class EventsLoader extends Component {
                 <Button disabled={this.state.rawEventsJson.trim().length < 1}>
                   Import
                 </Button>
-                {this.state.error && (
-                  <p className="EventsLoader__error">
-                    Unable to import sessions:
-                    <pre>{this.state.error}</pre>
-                  </p>
+                {this.props.importError && (
+                  <div className="EventsLoader__error">
+                    Sorry, unable to import. The following error happened:
+                    <pre>{this.props.importError}</pre>
+                  </div>
                 )}
               </form>
             </li>
@@ -101,7 +101,8 @@ class EventsLoader extends Component {
 }
 
 const mapStateToProps = ({ events }) => ({
-  isEventsLoaderShown: events.isEventsLoaderShown
+  isEventsLoaderShown: events.isEventsLoaderShown,
+  importError: events.importError
 });
 
 export default connect(

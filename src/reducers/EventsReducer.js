@@ -8,7 +8,7 @@ import {
 const INITIAL_STATE = {
   events: [],
   isEventsLoaderShown: false,
-  eventsLoaderError: ""
+  importError: "",
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -17,12 +17,13 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         events: action.payload,
+        importError: "",
         isEventsLoaderShown: false
       };
     case IMPORT_EVENTS_FAIL:
       return {
         ...state,
-        eventsLoaderError: action.payload
+        importError: action.payload
       };
     case TOGGLE_EVENTS_LOADER:
       if (action.payload === null) {

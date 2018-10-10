@@ -21,7 +21,6 @@ class Header extends Component {
         <div className="Header__controls">
           <Button
             onClick={() => {
-              console.log(this.props);
               this.props.toggleEventsLoader(true);
             }}
           >
