@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import _ from "lodash-es";
 import CheckboxFilterList from "./CheckboxFilterList";
 import { filterEvents } from "./actions";
 
@@ -9,72 +10,87 @@ class Filters extends Component {
     this.state = {
       searchQuery: "",
       locationFilters: {},
-      typeFilters: {}
+      typeFilters: {},
+      priorityFilters: this.props.priorities.reduce((accumulator, priority) => {
+        return { ...accumulator, [priority]: true };
+      }, {}),
+      deletedFilter: { "Show Deleted": false }
     };
 
     this.filterEvents = this.filterEvents.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
-    this.updateFilters = this.updateFilters.bind(this);
-    this.getLocationFilters = this.getLocationFilters.bind(this);
-    this.getTypeFilters = this.getTypeFilters.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.events !== prevProps.events) {
-      this.updateFilters();
+    const newState = {};
+
+    if (prevProps.locations !== this.props.locations) {
+      newState.locationFilters = this.props.locations.reduce(
+        (accumulator, location) => {
+          return { ...accumulator, [location]: true };
+        },
+        {}
+      );
     }
-  }
+    if (prevProps.types !== this.props.types) {
+      newState.typeFilters = this.props.types.reduce((accumulator, type) => {
+        return { ...accumulator, [type]: true };
+      }, {});
+    }
+    if (Object.keys(newState).length > 0) {
+      this.setState(newState, this.filterEvents);
+    }
 
-  updateFilters() {
-    this.setState(
-      {
-        locationFilters: this.getLocationFilters(),
-        typeFilters: this.getTypeFilters()
-      },
-      this.filterEvents
-    );
-  }
-
-  getTypeFilters() {
-    const typeFilters = {};
-
-    this.props.events.forEach(event => {
-      typeFilters[event.type] = true;
-    });
-
-    return typeFilters;
-  }
-
-  getLocationFilters() {
-    const locationFilters = {};
-
-    this.props.events.forEach(event => {
-      locationFilters[event.location] = true;
-    });
-
-    return locationFilters;
+    if (this.props.events !== prevProps.events) {
+      this.filterEvents();
+    }
   }
 
   filterEvents() {
-    let filteredEvents = [...this.props.events];
+    let filteredEvents = _.reduce(
+      this.props.events,
+      (filteredEvents, event) => {
+        // Filter deleted.
+        if (
+          !this.state.deletedFilter["Show Deleted"] &&
+          event.deleted === true
+        ) {
+          return filteredEvents;
+        }
 
-    // Filter based on search.
-    if (this.state.searchQuery.trim()) {
-      filteredEvents = filteredEvents.filter(event =>
-        event.tooltip
-          .toLowerCase()
-          .includes(this.state.searchQuery.trim().toLowerCase())
-      );
-    }
+        // Filter based on search.
+        if (this.state.searchQuery.trim()) {
+          if (
+            !event.tooltip
+              .toLowerCase()
+              .includes(this.state.searchQuery.trim().toLowerCase())
+          ) {
+            return filteredEvents;
+          }
+        }
 
-    // Filter based on locations.
-    filteredEvents = filteredEvents.filter(
-      event => this.state.locationFilters[event.location]
-    );
+        // Filter based on locations.
+        if (!this.state.locationFilters[event.location]) {
+          return filteredEvents;
+        }
 
-    // Filter based on type.
-    filteredEvents = filteredEvents.filter(
-      event => this.state.typeFilters[event.type]
+        // Filter based on type.
+        if (!this.state.typeFilters[event.type]) {
+          return filteredEvents;
+        }
+
+        // Filter based on priority.
+        const eventPriority = event.priority
+          ? event.priority
+          : "Nonprioritized";
+        if (!this.state.priorityFilters[eventPriority]) {
+          return filteredEvents;
+        }
+
+        filteredEvents.push(event);
+        return filteredEvents;
+      },
+      []
     );
 
     this.props.filterEvents(filteredEvents);
@@ -128,6 +144,26 @@ class Filters extends Component {
               }
             />
           </div>
+          <div>
+            <strong>Priority:</strong>
+            <CheckboxFilterList
+              sort={false}
+              filters={this.state.priorityFilters}
+              onFilterChange={newFilters =>
+                this.onFilterChange({ priorityFilters: newFilters })
+              }
+            />
+          </div>
+          <div>
+            <strong>Trash:</strong>
+            <CheckboxFilterList
+              sort={false}
+              filters={this.state.deletedFilter}
+              onFilterChange={newFilters =>
+                this.onFilterChange({ deletedFilter: newFilters })
+              }
+            />
+          </div>
         </form>
       </div>
     );
@@ -137,7 +173,10 @@ class Filters extends Component {
 const mapStateToProps = ({ events }) => ({
   events: events.events,
   filteredEvents: events.filteredEvents,
-  isFiltersShown: events.isFiltersShown
+  isFiltersShown: events.isFiltersShown,
+  locations: events.locations,
+  types: events.types,
+  priorities: events.priorities
 });
 
 export default connect(

@@ -1,16 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import "./index.css";
 import App from "./App";
 import reducers from "./reducers";
+import LocalStorageSyncer from "./middlewares/LocalStorageSyncer";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <Provider store={createStore(reducers, composeWithDevTools())}>
+  <Provider
+    store={createStore(
+      reducers,
+      composeWithDevTools(applyMiddleware(LocalStorageSyncer))
+    )}
+  >
     <App />
   </Provider>,
   document.getElementById("root")

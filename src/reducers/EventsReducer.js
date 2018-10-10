@@ -5,11 +5,16 @@ import {
   IMPORT_EVENTS_FAIL,
   TOGGLE_EVENTS_LOADER,
   FILTER_EVENTS,
-  TOGGLE_FILTERS
+  TOGGLE_FILTERS,
+  SET_EVENT_PRIORITY,
+  SET_EVENT_DELETE_STATE
 } from "../actions/types";
 
 const INITIAL_STATE = {
-  events: [],
+  events: {},
+  locations: [],
+  types: [],
+  priorities: ["High", "Medium", "Low", "Nonprioritized"],
   filteredEvents: [],
   isEventsLoaderShown: false,
   importError: "",
@@ -21,12 +26,16 @@ export default (state = INITIAL_STATE, action) => {
     case LOAD_APP_SUCCESS:
       return {
         ...state,
-        events: action.payload.events
+        events: action.payload.events,
+        locations: action.payload.locations,
+        types: action.payload.types
       };
     case IMPORT_EVENTS_SUCCESS:
       return {
         ...state,
-        events: action.payload,
+        events: action.payload.events,
+        locations: action.payload.locations,
+        types: action.payload.types,
         importError: "",
         isEventsLoaderShown: false
       };
@@ -62,6 +71,34 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         isFiltersShown: action.payload
       };
+    case SET_EVENT_PRIORITY: {
+      const { id, priority } = action.payload;
+      const updatedEvent = {
+        ...state.events[id],
+        priority
+      };
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          [id]: updatedEvent
+        }
+      };
+    }
+    case SET_EVENT_DELETE_STATE: {
+      const { id, deleted } = action.payload;
+      const updatedEvent = {
+        ...state.events[id],
+        deleted
+      };
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          [id]: updatedEvent
+        }
+      };
+    }
     default:
       return state;
   }
