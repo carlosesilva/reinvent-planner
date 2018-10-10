@@ -1,3 +1,5 @@
+import _ from "lodash-es";
+
 // Import action types.
 import {
   LOAD_APP_SUCCESS,
@@ -10,8 +12,8 @@ import {
   SET_EVENT_PRIORITY
 } from "./types";
 
-function parseEvents(eventsJson) {
-  const rawEvents = JSON.parse(eventsJson);
+function parseEvents(rawEventsJson) {
+  const rawEvents = JSON.parse(rawEventsJson);
   const events = {};
   const locations = [];
   const types = [];
@@ -60,12 +62,40 @@ function parseEvents(eventsJson) {
 }
 
 export const loadApp = () => {
+  const payload = {
+    events: {},
+    locations: [],
+    types: []
+  };
   try {
-    const eventsJson = localStorage.getItem("eventsJson");
-    const { events, locations, types } = parseEvents(eventsJson);
+    const eventsJson = localStorage.getItem("events");
+    if (eventsJson) {
+      payload.events = _.mapValues(JSON.parse(eventsJson), event => ({
+        ...event,
+        start: new Date(event.start),
+        end: new Date(event.end)
+      }));
+
+      Object.values(payload.events).forEach(event => {
+        if (!payload.locations.includes(event.location)) {
+          payload.locations.push(event.location);
+        }
+        if (!payload.types.includes(event.type)) {
+          payload.types.push(event.type);
+        }
+      });
+    } else {
+      const rawEventsJson = localStorage.getItem("rawEvents");
+      if (rawEventsJson) {
+        const parseEventsResults = parseEvents(rawEventsJson);
+        payload.events = parseEventsResults.events;
+        payload.locations = parseEventsResults.locations;
+        payload.types = parseEventsResults.types;
+      }
+    }
     return {
       type: LOAD_APP_SUCCESS,
-      payload: { events, locations, types }
+      payload
     };
   } catch (error) {
     return {
@@ -75,10 +105,10 @@ export const loadApp = () => {
   }
 };
 
-export const importEvents = eventsJson => {
+export const importEvents = rawEventsJson => {
   try {
-    const { events, locations, types } = parseEvents(eventsJson);
-    localStorage.setItem("eventsJson", eventsJson);
+    const { events, locations, types } = parseEvents(rawEventsJson);
+    localStorage.setItem("rawEvents", rawEventsJson);
     return {
       type: IMPORT_EVENTS_SUCCESS,
       payload: { events, locations, types }

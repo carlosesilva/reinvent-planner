@@ -10,26 +10,26 @@ ReactModal.setAppElement("#root");
 class EventsLoader extends Component {
   constructor(props) {
     super(props);
-    this.state = { eventsJson: "", error: null };
+    this.state = { rawEvents: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    const eventsJson = localStorage.getItem("eventsJson");
-    if (eventsJson) {
-      this.setState({ eventsJson });
+    const rawEvents = localStorage.getItem("rawEvents");
+    if (rawEvents) {
+      this.setState({ rawEvents });
     }
   }
 
   handleChange(event) {
-    this.setState({ eventsJson: event.target.value, error: null });
+    this.setState({ rawEvents: event.target.value });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.importEvents(this.state.eventsJson);
+    this.props.importEvents(this.state.rawEvents);
   }
 
   render() {
@@ -80,9 +80,9 @@ class EventsLoader extends Component {
               <form className="EventsLoader__form" onSubmit={this.handleSubmit}>
                 <textarea
                   onChange={this.handleChange}
-                  value={this.state.eventsJson}
+                  value={this.state.rawEvents}
                 />
-                <Button disabled={this.state.eventsJson.trim().length < 1}>
+                <Button disabled={this.state.rawEvents.trim().length < 1}>
                   Import
                 </Button>
                 {this.props.importError && (
