@@ -75,8 +75,13 @@ function getSessionDatetime(session) {
 }
 
 function displaySessions(sessions) {
+  if (document.getElementById("sessions-loading")) {
+    document.getElementById("sessions-loading").remove();
+  }
+
   console.log("");
   const modal = document.createElement("div");
+  modal.id = "sessions-log";
   modal.style.position = "fixed";
   modal.style.top = "0";
   modal.style.width = "100vw";
@@ -119,11 +124,53 @@ function displaySessions(sessions) {
       .join(", ");
     message.innerHTML = `The following sessions do not have schedule information and therefore will not show up on the calendar: ${sessionsString}`;
     modalContent.appendChild(message);
+
+    const retryButton = document.createElement("button");
+    retryButton.innerText = "Retry";
+    retryButton.onclick = function () {
+        document.getElementById("sessions-log").remove();
+        processAll();
+    }
+
+    modalContent.appendChild(retryButton);
   }
 
   document.body.appendChild(modal);
 }
 
-retrieveSchedules()
-  .then(() => processSessions())
-  .then(sessions => displaySessions(sessions));
+function loading() {
+    if (document.getElementById("sessions-loading")) {
+        document.getElementById("sessions-loading").remove();
+    }
+
+    const modal = document.createElement("div");
+    modal.id = "sessions-loading";
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.width = "100vw";
+    modal.style.height = "100vh";
+    modal.style.background = "#3338";
+    modal.style.display = "grid";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+
+    const modalContent = document.createElement("div");
+    modalContent.style.width = "5vw";
+    modalContent.style.padding = "2rem";
+    modalContent.style.background = "#fff";
+    modal.appendChild(modalContent);    
+
+    modalContent.innerHTML = "<strong>Processing...</strong";
+
+    document.body.appendChild(modal);
+}
+
+function processAll() {
+    loading();
+
+    return retrieveSchedules()
+        .then(() => processSessions())
+        .then(sessions => displaySessions(sessions));
+}
+
+processAll();
