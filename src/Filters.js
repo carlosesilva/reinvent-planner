@@ -50,7 +50,6 @@ class Filters extends Component {
 
   filterEvents() {
     const { events } = this.props;
-    console.log("filterEvents", events);
     let filteredEvents = _.reduce(
       events,
       (filteredEvents, event) => {
