@@ -61,7 +61,7 @@ function parseEvents(eventsJson) {
 
 export const loadApp = () => {
   try {
-    const eventsJson = localStorage.getItem("rawEventsJson");
+    const eventsJson = localStorage.getItem("eventsJson");
     const { events, locations, types } = parseEvents(eventsJson);
     return {
       type: LOAD_APP_SUCCESS,
@@ -78,7 +78,7 @@ export const loadApp = () => {
 export const importEvents = eventsJson => {
   try {
     const { events, locations, types } = parseEvents(eventsJson);
-    localStorage.setItem("rawEventsJson", eventsJson);
+    localStorage.setItem("eventsJson", eventsJson);
     return {
       type: IMPORT_EVENTS_SUCCESS,
       payload: { events, locations, types }
