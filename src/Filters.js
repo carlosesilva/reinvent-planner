@@ -11,72 +11,53 @@ class Filters extends Component {
       searchQuery: "",
       locationFilters: {},
       typeFilters: {},
-      priorityFilters: {}
+      priorityFilters: this.props.priorities.reduce((accumulator, priority) => {
+        return { ...accumulator, [priority]: true };
+      }, {}),
+      deletedFilter: { "Show Deleted": false }
     };
 
     this.filterEvents = this.filterEvents.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
-    this.updateFilters = this.updateFilters.bind(this);
-    this.getLocationFilters = this.getLocationFilters.bind(this);
-    this.getTypeFilters = this.getTypeFilters.bind(this);
-    this.getPriorityFilters = this.getPriorityFilters.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.events !== prevProps.events) {
-      this.updateFilters();
+    const newState = {};
+
+    if (prevProps.locations !== this.props.locations) {
+      newState.locationFilters = this.props.locations.reduce(
+        (accumulator, location) => {
+          return { ...accumulator, [location]: true };
+        },
+        {}
+      );
     }
-  }
+    if (prevProps.types !== this.props.types) {
+      newState.typeFilters = this.props.types.reduce((accumulator, type) => {
+        return { ...accumulator, [type]: true };
+      }, {});
+    }
+    if (Object.keys(newState).length > 0) {
+      this.setState(newState, this.filterEvents);
+    }
 
-  updateFilters() {
-    this.setState(
-      {
-        locationFilters: this.getLocationFilters(),
-        typeFilters: this.getTypeFilters(),
-        priorityFilters: this.getPriorityFilters()
-      },
-      this.filterEvents
-    );
-  }
-
-  getTypeFilters() {
-    return _.reduce(
-      this.props.events,
-      (typeFilters, event) => {
-        typeFilters[event.type] = true;
-        return typeFilters;
-      },
-      {}
-    );
-  }
-
-  getLocationFilters() {
-    const locationFilters = _.reduce(
-      this.props.events,
-      (accumulator, event) => {
-        accumulator[event.location] = true;
-        return accumulator;
-      },
-      {}
-    );
-    return locationFilters;
-  }
-
-  getPriorityFilters() {
-    const priorityFilters = this.props.priorities.reduce(
-      (accumulator, priority) => {
-        accumulator[priority] = true;
-        return accumulator;
-      },
-      {}
-    );
-    return priorityFilters;
+    if (this.props.events !== prevProps.events) {
+      this.filterEvents();
+    }
   }
 
   filterEvents() {
     let filteredEvents = _.reduce(
       this.props.events,
       (filteredEvents, event) => {
+        // Filter deleted.
+        if (
+          !this.state.deletedFilter["Show Deleted"] &&
+          event.deleted === true
+        ) {
+          return filteredEvents;
+        }
+
         // Filter based on search.
         if (this.state.searchQuery.trim()) {
           if (
@@ -173,6 +154,16 @@ class Filters extends Component {
               }
             />
           </div>
+          <div>
+            <strong>Trash:</strong>
+            <CheckboxFilterList
+              sort={false}
+              filters={this.state.deletedFilter}
+              onFilterChange={newFilters =>
+                this.onFilterChange({ deletedFilter: newFilters })
+              }
+            />
+          </div>
         </form>
       </div>
     );
@@ -183,6 +174,8 @@ const mapStateToProps = ({ events }) => ({
   events: events.events,
   filteredEvents: events.filteredEvents,
   isFiltersShown: events.isFiltersShown,
+  locations: events.locations,
+  types: events.types,
   priorities: events.priorities
 });
 

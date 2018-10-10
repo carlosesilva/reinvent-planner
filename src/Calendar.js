@@ -44,14 +44,18 @@ export default ({ events }) => {
             wynn: "#7ac142",
             encore: "#7f3f97"
           };
+          const styles = {};
           try {
-            return {
-              style: {
-                backgroundColor:
-                  locationColors[event.location.split(" ")[0].toLowerCase()]
-              }
-            };
+            if (event.deleted) {
+              styles.backgroundColor = "#bbb";
+              styles.borderColor = "#888";
+              styles.color = "#eee";
+            } else {
+              styles.backgroundColor =
+                locationColors[event.location.split(" ")[0].toLowerCase()];
+            }
           } catch (error) {}
+          return { style: styles };
         }}
       />
     </div>
