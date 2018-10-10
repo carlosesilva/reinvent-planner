@@ -1,18 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-import { setEventPriority } from "./actions";
+import { setEventPriority, deleteEvent } from "./actions";
 import "./Event.scss";
 
 const Event = ({
   event: { id, title, tooltip },
   priorities,
-  setEventPriority
+  setEventPriority,
+  deleteEvent
 }) => {
-  const handleClick = (e, data) => {
-    console.log(e, data);
-  };
-
   const priorityMenuItems = priorities.map(priority => (
     <MenuItem key={priority} onClick={() => setEventPriority({ id, priority })}>
       {priority}
@@ -27,7 +24,7 @@ const Event = ({
       <ContextMenu id={id}>
         {priorityMenuItems}
         <MenuItem divider />
-        <MenuItem onClick={handleClick}>Delete</MenuItem>
+        <MenuItem onClick={() => deleteEvent(id)}>Delete</MenuItem>
       </ContextMenu>
     </div>
   );
@@ -39,5 +36,5 @@ const mapStateToProps = ({ events }) => ({
 
 export default connect(
   mapStateToProps,
-  { setEventPriority }
+  { setEventPriority, deleteEvent }
 )(Event);

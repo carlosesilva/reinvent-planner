@@ -9,7 +9,8 @@ import {
   TOGGLE_EVENTS_LOADER,
   FILTER_EVENTS,
   TOGGLE_FILTERS,
-  SET_EVENT_PRIORITY
+  SET_EVENT_PRIORITY,
+  SET_EVENT_DELETE_STATE
 } from "./types";
 
 function parseEvents(rawEventsJson) {
@@ -141,5 +142,21 @@ export const setEventPriority = ({ id, priority }) => ({
   payload: {
     id,
     priority
+  }
+});
+
+export const deleteEvent = id => ({
+  type: SET_EVENT_DELETE_STATE,
+  payload: {
+    id,
+    deleted: true
+  }
+});
+
+export const restoreEvent = id => ({
+  type: SET_EVENT_DELETE_STATE,
+  payload: {
+    id,
+    deleted: false
   }
 });

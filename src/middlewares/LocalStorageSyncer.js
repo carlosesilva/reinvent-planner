@@ -1,4 +1,8 @@
-import { IMPORT_EVENTS_SUCCESS, SET_EVENT_PRIORITY } from "../actions/types";
+import {
+  IMPORT_EVENTS_SUCCESS,
+  SET_EVENT_PRIORITY,
+  SET_EVENT_DELETE_STATE
+} from "../actions/types";
 
 const saveEventsToLocalStorage = events => {
   try {
@@ -13,7 +17,13 @@ export default function LocalStorageSyncer({ getState }) {
   return next => action => {
     const returnValue = next(action);
 
-    if ([IMPORT_EVENTS_SUCCESS, SET_EVENT_PRIORITY].includes(action.type)) {
+    if (
+      [
+        IMPORT_EVENTS_SUCCESS,
+        SET_EVENT_PRIORITY,
+        SET_EVENT_DELETE_STATE
+      ].includes(action.type)
+    ) {
       console.log("LocalStorageSyncer: Saving events to local storage");
       const state = getState();
       saveEventsToLocalStorage(state.events.events);

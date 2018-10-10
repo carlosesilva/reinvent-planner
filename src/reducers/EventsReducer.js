@@ -6,7 +6,8 @@ import {
   TOGGLE_EVENTS_LOADER,
   FILTER_EVENTS,
   TOGGLE_FILTERS,
-  SET_EVENT_PRIORITY
+  SET_EVENT_PRIORITY,
+  SET_EVENT_DELETE_STATE
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -70,11 +71,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         isFiltersShown: action.payload
       };
-    case SET_EVENT_PRIORITY:
+    case SET_EVENT_PRIORITY: {
       const { id, priority } = action.payload;
       const updatedEvent = {
         ...state.events[id],
-        priority: priority
+        priority
       };
       return {
         ...state,
@@ -83,6 +84,21 @@ export default (state = INITIAL_STATE, action) => {
           [id]: updatedEvent
         }
       };
+    }
+    case SET_EVENT_DELETE_STATE: {
+      const { id, deleted } = action.payload;
+      const updatedEvent = {
+        ...state.events[id],
+        deleted
+      };
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          [id]: updatedEvent
+        }
+      };
+    }
     default:
       return state;
   }
