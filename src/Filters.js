@@ -10,7 +10,8 @@ class Filters extends Component {
     this.state = {
       searchQuery: "",
       locationFilters: {},
-      typeFilters: {}
+      typeFilters: {},
+      priorityFilters: {}
     };
 
     this.filterEvents = this.filterEvents.bind(this);
@@ -18,6 +19,7 @@ class Filters extends Component {
     this.updateFilters = this.updateFilters.bind(this);
     this.getLocationFilters = this.getLocationFilters.bind(this);
     this.getTypeFilters = this.getTypeFilters.bind(this);
+    this.getPriorityFilters = this.getPriorityFilters.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -30,7 +32,8 @@ class Filters extends Component {
     this.setState(
       {
         locationFilters: this.getLocationFilters(),
-        typeFilters: this.getTypeFilters()
+        typeFilters: this.getTypeFilters(),
+        priorityFilters: this.getPriorityFilters()
       },
       this.filterEvents
     );
@@ -59,6 +62,17 @@ class Filters extends Component {
     return locationFilters;
   }
 
+  getPriorityFilters() {
+    const priorityFilters = this.props.priorities.reduce(
+      (accumulator, priority) => {
+        accumulator[priority] = true;
+        return accumulator;
+      },
+      {}
+    );
+    return priorityFilters;
+  }
+
   filterEvents() {
     let filteredEvents = _.reduce(
       this.props.events,
@@ -81,6 +95,14 @@ class Filters extends Component {
 
         // Filter based on type.
         if (!this.state.typeFilters[event.type]) {
+          return filteredEvents;
+        }
+
+        // Filter based on priority.
+        const eventPriority = event.priority
+          ? event.priority
+          : "Nonprioritized";
+        if (!this.state.priorityFilters[eventPriority]) {
           return filteredEvents;
         }
 
@@ -141,6 +163,16 @@ class Filters extends Component {
               }
             />
           </div>
+          <div>
+            <strong>Priority:</strong>
+            <CheckboxFilterList
+              sort={false}
+              filters={this.state.priorityFilters}
+              onFilterChange={newFilters =>
+                this.onFilterChange({ priorityFilters: newFilters })
+              }
+            />
+          </div>
         </form>
       </div>
     );
@@ -150,7 +182,8 @@ class Filters extends Component {
 const mapStateToProps = ({ events }) => ({
   events: events.events,
   filteredEvents: events.filteredEvents,
-  isFiltersShown: events.isFiltersShown
+  isFiltersShown: events.isFiltersShown,
+  priorities: events.priorities
 });
 
 export default connect(

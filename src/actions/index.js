@@ -6,7 +6,8 @@ import {
   IMPORT_EVENTS_FAIL,
   TOGGLE_EVENTS_LOADER,
   FILTER_EVENTS,
-  TOGGLE_FILTERS
+  TOGGLE_FILTERS,
+  SET_EVENT_PRIORITY
 } from "./types";
 
 function parseEvents(eventsJson) {
@@ -103,4 +104,12 @@ export const filterEvents = filteredEvents => ({
 export const toggleFilters = (toggle = null) => ({
   type: TOGGLE_FILTERS,
   payload: toggle
+});
+
+export const setEventPriority = ({ id, priority }) => ({
+  type: SET_EVENT_PRIORITY,
+  payload: {
+    id,
+    priority
+  }
 });

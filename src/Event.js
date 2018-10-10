@@ -1,15 +1,23 @@
 import React from "react";
+import { connect } from "react-redux";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { setEventPriority } from "./actions";
 import "./Event.scss";
 
-export default props => {
-  const {
-    event: { id, title, tooltip }
-  } = props;
-
+const Event = ({
+  event: { id, title, tooltip },
+  priorities,
+  setEventPriority
+}) => {
   const handleClick = (e, data) => {
     console.log(e, data);
   };
+
+  const priorityMenuItems = priorities.map(priority => (
+    <MenuItem key={priority} onClick={() => setEventPriority({ id, priority })}>
+      {priority}
+    </MenuItem>
+  ));
 
   return (
     <div className="Event">
@@ -17,18 +25,19 @@ export default props => {
         <div title={tooltip}>{title}</div>
       </ContextMenuTrigger>
       <ContextMenu id={id}>
-        <MenuItem data={{ priority: "high" }} onClick={handleClick}>
-          High
-        </MenuItem>
-        <MenuItem data={{ priority: "medium" }} onClick={handleClick}>
-          Medium
-        </MenuItem>
-        <MenuItem data={{ priority: "low" }} onClick={handleClick}>
-          Low
-        </MenuItem>
+        {priorityMenuItems}
         <MenuItem divider />
         <MenuItem onClick={handleClick}>Delete</MenuItem>
       </ContextMenu>
     </div>
   );
 };
+
+const mapStateToProps = ({ events }) => ({
+  priorities: events.priorities
+});
+
+export default connect(
+  mapStateToProps,
+  { setEventPriority }
+)(Event);
