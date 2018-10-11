@@ -15,7 +15,7 @@ const INITIAL_STATE = {
   eventsUserData: {},
   locations: [],
   types: [],
-  priorities: ["High", "Medium", "Low", "Nonprioritized"],
+  priorities: ["Must go", "High", "Medium", "Low", "Nonprioritized"],
   filteredEvents: [],
   isEventsLoaderShown: false,
   importError: "",
