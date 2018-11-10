@@ -6,6 +6,8 @@ Hosted app: http://reinvent-planner.aws.carlosesilva.com
 
 How-to video: https://www.dropbox.com/s/ox4vf6ahidd3z3y/reinvent-planner.mov?dl=0
 
+![Screenshot](images/reInventPlanner-screenshot.png)
+
 ## Run it locally
 
 ### Requirements
