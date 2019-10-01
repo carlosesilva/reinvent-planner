@@ -16,9 +16,9 @@ export default ({ events }) => {
     <div className="Calendar">
       <BigCalendar
         localizer={localizer}
-        defaultDate={new Date(2018, 10, 25)}
+        defaultDate={new Date(2019, 11, 1)}
         defaultView="week"
-        scrollToTime={new Date(2018, 10, 25, 8)}
+        scrollToTime={new Date(2019, 11, 1, 8)}
         tooltipAccessor="tooltip"
         events={events}
         components={{ event: Event }}
