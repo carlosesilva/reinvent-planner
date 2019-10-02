@@ -63,7 +63,7 @@ function getSessionDatetime(session) {
     const rawDatetime = session.querySelector(
       ".actionColumn .availableSessions"
     ).childNodes[1].textContent;
-    const date = rawDatetime.split(", ")[1] + " 2018";
+    const date = rawDatetime.split(", ")[1] + " 2019";
     const [timeStart, timeEnd] = rawDatetime.split(", ")[2].split(" - ");
     const datetimeStart = Date.parse(date + "," + timeStart);
     const datetimeEnd = Date.parse(date + "," + timeEnd);
