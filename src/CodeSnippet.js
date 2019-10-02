@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { github } from "react-syntax-highlighter/styles/hljs";
+import { github } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Button from "./Button";
 
